@@ -1,3 +1,4 @@
+```php
 <?php
 session_start();
 require_once '../conn.php';
@@ -14,8 +15,12 @@ if ($customer_id === '') {
     exit;
 }
 
+/* =========================
+   ดึงข้อมูลลูกค้า
+========================= */
+
 $stmt = $conn->prepare("
-    SELECT customer_id, firstname, lastname, email, telephone, address
+    SELECT customer_id, firstname, lastname, email, telephone, address, status
     FROM customers
     WHERE customer_id = ?
     LIMIT 1
@@ -27,11 +32,17 @@ $stmt->execute();
 $result = $stmt->get_result();
 $customer = $result->fetch_assoc();
 
+$stmt->close();
+
 if (!$customer) {
     die('ไม่พบข้อมูลลูกค้านี้');
 }
 
 $error = '';
+
+/* =========================
+   บันทึกข้อมูล
+========================= */
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
@@ -41,6 +52,17 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $telephone = trim($_POST['telephone'] ?? '');
     $address = trim($_POST['address'] ?? '');
     $new_password = $_POST['new_password'] ?? '';
+
+    /* สถานะลูกค้า */
+    $status = $_POST['status'] ?? 'active';
+
+    if ($status !== 'active' && $status !== 'suspended') {
+        $status = 'active';
+    }
+
+    /* =========================
+       ตรวจสอบข้อมูล
+    ========================= */
 
     if ($firstname === '') {
 
@@ -56,18 +78,88 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     } else {
 
-        if ($new_password !== '') {
+        /* =========================
+           ตรวจสอบอีเมลซ้ำ
+        ========================= */
 
-            if (strlen($new_password) < 6) {
+        $check = $conn->prepare("
+            SELECT customer_id
+            FROM customers
+            WHERE email = ?
+            AND customer_id != ?
+            LIMIT 1
+        ");
 
-                $error = 'รหัสผ่านใหม่ต้องมีอย่างน้อย 6 ตัวอักษร';
+        $check->bind_param("ss", $email, $customer_id);
+        $check->execute();
+
+        $check_result = $check->get_result();
+
+        if ($check_result->num_rows > 0) {
+
+            $error = 'อีเมลนี้ถูกใช้งานโดยลูกค้าคนอื่นแล้ว';
+
+        } else {
+
+            /* =========================
+               กรณีเปลี่ยนรหัสผ่าน
+            ========================= */
+
+            if ($new_password !== '') {
+
+                if (strlen($new_password) < 6) {
+
+                    $error = 'รหัสผ่านใหม่ต้องมีอย่างน้อย 6 ตัวอักษร';
+
+                } else {
+
+                    $password_hash = password_hash(
+                        $new_password,
+                        PASSWORD_DEFAULT
+                    );
+
+                    $stmt = $conn->prepare("
+                        UPDATE customers
+                        SET firstname = ?,
+                            lastname = ?,
+                            email = ?,
+                            telephone = ?,
+                            password = ?,
+                            address = ?,
+                            status = ?
+                        WHERE customer_id = ?
+                    ");
+
+                    $stmt->bind_param(
+                        "ssssssss",
+                        $firstname,
+                        $lastname,
+                        $email,
+                        $telephone,
+                        $password_hash,
+                        $address,
+                        $status,
+                        $customer_id
+                    );
+
+                    if ($stmt->execute()) {
+
+                        header('Location: customers.php');
+                        exit;
+
+                    } else {
+
+                        $error = 'แก้ไขข้อมูลลูกค้าไม่สำเร็จ';
+                    }
+
+                    $stmt->close();
+                }
 
             } else {
 
-                $password_hash = password_hash(
-                    $new_password,
-                    PASSWORD_DEFAULT
-                );
+                /* =========================
+                   กรณีไม่เปลี่ยนรหัสผ่าน
+                ========================= */
 
                 $stmt = $conn->prepare("
                     UPDATE customers
@@ -75,8 +167,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                         lastname = ?,
                         email = ?,
                         telephone = ?,
-                        password = ?,
-                        address = ?
+                        address = ?,
+                        status = ?
                     WHERE customer_id = ?
                 ");
 
@@ -86,49 +178,35 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     $lastname,
                     $email,
                     $telephone,
-                    $password_hash,
                     $address,
+                    $status,
                     $customer_id
                 );
 
                 if ($stmt->execute()) {
+
                     header('Location: customers.php');
                     exit;
+
                 } else {
+
                     $error = 'แก้ไขข้อมูลลูกค้าไม่สำเร็จ';
                 }
-            }
 
-        } else {
-
-            $stmt = $conn->prepare("
-                UPDATE customers
-                SET firstname = ?,
-                    lastname = ?,
-                    email = ?,
-                    telephone = ?,
-                    address = ?
-                WHERE customer_id = ?
-            ");
-
-            $stmt->bind_param(
-                "ssssss",
-                $firstname,
-                $lastname,
-                $email,
-                $telephone,
-                $address,
-                $customer_id
-            );
-
-            if ($stmt->execute()) {
-                header('Location: customers.php');
-                exit;
-            } else {
-                $error = 'แก้ไขข้อมูลลูกค้าไม่สำเร็จ';
+                $stmt->close();
             }
         }
+
+        $check->close();
     }
+
+    /* ถ้ามี error ให้แสดงค่าที่กรอกล่าสุด */
+    $customer['firstname'] = $firstname;
+    $customer['lastname'] = $lastname;
+    $customer['email'] = $email;
+    $customer['telephone'] = $telephone;
+    $customer['address'] = $address;
+    $customer['status'] = $status;
 }
 ?>
 
@@ -193,7 +271,8 @@ label {
 }
 
 input,
-textarea {
+textarea,
+select {
     width: 100%;
     padding: 13px 15px;
     border: 2px solid #ffd0dd;
@@ -214,6 +293,13 @@ textarea {
     font-size: 13px;
     color: #777;
     margin-top: 6px;
+}
+
+.status-box {
+    padding: 15px;
+    border-radius: 12px;
+    background: #fff5f8;
+    border: 2px solid #ffd0dd;
 }
 
 .buttons {
@@ -256,8 +342,15 @@ button,
 <body>
 
 <div class="header">
-    <div class="logo">🍒 KLONG 6 CAFE</div>
-    <div>ADMIN PANEL</div>
+
+    <div class="logo">
+        🍒 KLONG 6 CAFE
+    </div>
+
+    <div>
+        ADMIN PANEL
+    </div>
+
 </div>
 
 <div class="container">
@@ -267,14 +360,19 @@ button,
 <h1>👤 แก้ไขข้อมูลลูกค้า</h1>
 
 <?php if ($error): ?>
+
     <div class="error">
         <?= htmlspecialchars($error) ?>
     </div>
+
 <?php endif; ?>
 
 <form method="post">
 
+    <!-- Customer ID -->
+
     <div class="form-group">
+
         <label>รหัสลูกค้า</label>
 
         <input
@@ -283,9 +381,14 @@ button,
             class="readonly"
             readonly
         >
+
     </div>
 
+
+    <!-- ชื่อ -->
+
     <div class="form-group">
+
         <label>ชื่อ</label>
 
         <input
@@ -294,9 +397,14 @@ button,
             value="<?= htmlspecialchars($customer['firstname']) ?>"
             required
         >
+
     </div>
 
+
+    <!-- นามสกุล -->
+
     <div class="form-group">
+
         <label>นามสกุล</label>
 
         <input
@@ -305,9 +413,14 @@ button,
             value="<?= htmlspecialchars($customer['lastname']) ?>"
             required
         >
+
     </div>
 
+
+    <!-- อีเมล -->
+
     <div class="form-group">
+
         <label>อีเมล</label>
 
         <input
@@ -316,9 +429,14 @@ button,
             value="<?= htmlspecialchars($customer['email']) ?>"
             required
         >
+
     </div>
 
+
+    <!-- เบอร์โทร -->
+
     <div class="form-group">
+
         <label>เบอร์โทรศัพท์</label>
 
         <input
@@ -326,15 +444,25 @@ button,
             name="telephone"
             value="<?= htmlspecialchars($customer['telephone']) ?>"
         >
+
     </div>
 
+
+    <!-- ที่อยู่ -->
+
     <div class="form-group">
+
         <label>ที่อยู่</label>
 
         <textarea name="address"><?= htmlspecialchars($customer['address'] ?? '') ?></textarea>
+
     </div>
 
+
+    <!-- รหัสผ่าน -->
+
     <div class="form-group">
+
         <label>เปลี่ยนรหัสผ่านใหม่</label>
 
         <input
@@ -346,15 +474,60 @@ button,
         <div class="help">
             ถ้าไม่ต้องการเปลี่ยนรหัสผ่าน ให้เว้นช่องนี้ว่าง
         </div>
+
     </div>
+
+
+    <!-- สถานะ -->
+
+    <div class="form-group">
+
+        <label>สถานะการใช้งาน</label>
+
+        <div class="status-box">
+
+            <select name="status">
+
+                <option
+                    value="active"
+                    <?= ($customer['status'] === 'active') ? 'selected' : '' ?>
+                >
+                    🟢 ใช้งานปกติ
+                </option>
+
+                <option
+                    value="suspended"
+                    <?= ($customer['status'] === 'suspended') ? 'selected' : '' ?>
+                >
+                    🔴 ระงับการใช้งาน
+                </option>
+
+            </select>
+
+            <div class="help">
+                หากเลือกระงับการใช้งาน ลูกค้าจะไม่สามารถเข้าสู่ระบบได้
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- ปุ่ม -->
 
     <div class="buttons">
 
-        <button type="submit" class="save">
+        <button
+            type="submit"
+            class="save"
+        >
             💾 บันทึกการแก้ไข
         </button>
 
-        <a href="customers.php" class="btn back">
+        <a
+            href="customers.php"
+            class="btn back"
+        >
             ← กลับ
         </a>
 
@@ -368,3 +541,4 @@ button,
 
 </body>
 </html>
+```

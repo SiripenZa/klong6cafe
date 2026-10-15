@@ -101,156 +101,428 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     <title>สมัครสมาชิก | KLONG 6 CAFE</title>
 
     <link href="https://fonts.googleapis.com/css2?family=Mali:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --pink-deep: #f0457a;
+            --pink: #ff6b9a;
+            --pink-soft: #ffc2d6;
+            --pink-pale: #fff0f5;
+            --berry: #c1123f;
+            --ink: #5a2236;
+        }
+
+        * { box-sizing: border-box; }
+        html, body { margin: 0; }
+
+        body {
+            font-family: 'Mali', cursive;
+            color: var(--ink);
+            background: var(--pink-pale);
+            min-height: 100vh;
+        }
+
+        /* ===== แถบประกาศ ===== */
+        .topbar {
+            background: linear-gradient(90deg, #ff5c8e, #ff8fb1);
+            color: #fff;
+            text-align: center;
+            font-weight: 700;
+            font-size: 14px;
+            padding: 10px 14px;
+        }
+
+        /* ===== ส่วนหัว ===== */
+        .site-header {
+            background: linear-gradient(180deg, #ffb3cc, #ffc9da);
+        }
+
+        .header-inner {
+            max-width: 1180px;
+            margin: 0 auto;
+            padding: 20px 28px 14px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 16px;
+            flex-wrap: wrap;
+        }
+
+        .logo { text-decoration: none; color: #fff; display: block; }
+
+        .logo-title {
+            font-size: 34px;
+            font-weight: 700;
+            letter-spacing: 1px;
+            text-shadow: 0 2px 6px rgba(193, 18, 63, .25);
+        }
+
+        .logo-sub {
+            font-size: 11px;
+            letter-spacing: 3px;
+            font-weight: 600;
+            margin-top: 2px;
+        }
+
+        .pill-btn {
+            display: inline-block;
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 14px;
+            padding: 10px 22px;
+            border-radius: 999px;
+            background: #fff;
+            color: var(--pink-deep);
+            box-shadow: 0 4px 12px rgba(240, 69, 122, .18);
+        }
+
+        .nav-wrap { padding: 0 20px 22px; }
+
+        .nav-pill {
+            max-width: 720px;
+            margin: 0 auto;
+            background: rgba(255, 255, 255, .85);
+            border-radius: 999px;
+            padding: 8px;
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 6px;
+            box-shadow: 0 6px 18px rgba(240, 69, 122, .15);
+        }
+
+        .nav-pill a {
+            text-decoration: none;
+            color: var(--ink);
+            font-weight: 700;
+            font-size: 14px;
+            padding: 10px 22px;
+            border-radius: 999px;
+        }
+
+        .nav-pill a:hover { background: var(--pink-pale); }
+
+        .nav-pill a.active {
+            background: linear-gradient(90deg, var(--pink-deep), var(--pink));
+            color: #fff;
+            box-shadow: 0 4px 12px rgba(240, 69, 122, .35);
+        }
+
+        /* ===== เวทีหลัก (ซ้าย: ต้อนรับ / ขวา: ฟอร์ม) ===== */
+        .stage {
+            position: relative;
+            overflow: hidden;
+            padding: 60px 24px 80px;
+            background:
+                radial-gradient(circle at 8% 15%, rgba(255, 143, 177, .35) 0, transparent 38%),
+                radial-gradient(circle at 92% 85%, rgba(255, 143, 177, .35) 0, transparent 40%),
+                linear-gradient(180deg, #ffdbe7 0%, var(--pink-pale) 100%);
+        }
+
+        .float {
+            position: absolute;
+            user-select: none;
+            pointer-events: none;
+            opacity: .9;
+            animation: bob 5s ease-in-out infinite;
+        }
+        .f1 { top: 40px;  left: 4%;   font-size: 44px; }
+        .f2 { top: 120px; right: 5%;  font-size: 38px; animation-delay: 1s; }
+        .f3 { bottom: 70px; left: 6%; font-size: 40px; animation-delay: 2s; }
+        .f4 { bottom: 40px; right: 8%; font-size: 46px; animation-delay: .5s; }
+        .f5 { top: 46%; left: 46%;    font-size: 26px; animation-delay: 1.5s; }
+
+        @keyframes bob {
+            0%, 100% { transform: translateY(0) rotate(-4deg); }
+            50%      { transform: translateY(-10px) rotate(4deg); }
+        }
+
+        .stage-inner {
+            position: relative;
+            max-width: 680px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 32px;
+            justify-items: center;
+        }
+
+        /* ----- ข้อความต้อนรับ (กึ่งกลาง) ----- */
+        .welcome { text-align: center; }
+
+        .welcome small {
+            display: block;
+            font-size: 13px;
+            font-weight: 700;
+            letter-spacing: 3px;
+            color: var(--pink-deep);
+            margin-bottom: 8px;
+        }
+
+        .welcome h1 {
+            margin: 0 0 14px;
+            font-size: clamp(36px, 5vw, 56px);
+            line-height: 1.12;
+            color: var(--pink-deep);
+            text-shadow: 0 3px 0 #fff;
+        }
+
+        .welcome > p {
+            margin: 0 0 26px;
+            font-size: 16px;
+            line-height: 1.7;
+            max-width: 480px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .extras { width: 100%; text-align: center; }
+
+        .perks { display: grid; gap: 14px; margin-bottom: 26px; text-align: left; }
+
+        .perk {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            background: rgba(255, 255, 255, .8);
+            border: 1px solid #ffd3e1;
+            border-radius: 22px;
+            padding: 14px 18px;
+            box-shadow: 0 6px 16px rgba(240, 69, 122, .10);
+        }
+
+        .perk-icon {
+            flex: 0 0 52px;
+            height: 52px;
+            border-radius: 50%;
+            display: grid;
+            place-items: center;
+            font-size: 26px;
+            background: linear-gradient(135deg, #ffd0e0, #ffe7ef);
+        }
+
+        .perk b { display: block; font-size: 15px; color: var(--berry); }
+        .perk span { font-size: 13px; color: #8a5568; }
+
+        .badges { display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; }
+
+        .badge {
+            background: var(--pink);
+            color: #fff;
+            font-weight: 700;
+            font-size: 13px;
+            padding: 8px 16px;
+            border-radius: 999px;
+            box-shadow: 0 4px 10px rgba(240, 69, 122, .25);
+        }
+
+        .badge.alt { background: #fff; color: var(--pink-deep); }
+
+        /* ----- ฝั่งขวา: การ์ดฟอร์ม ----- */
+        .form-card {
+            width: 100%;
+            background: #fff;
+            border-radius: 30px;
+            padding: 36px 34px 30px;
+            box-shadow: 0 18px 45px rgba(240, 69, 122, .20);
+            border: 1px solid #ffd3e1;
+        }
+
+        .form-head { text-align: center; margin-bottom: 22px; }
+        .form-head h2 { margin: 0 0 4px; color: var(--pink-deep); font-size: 30px; }
+        .form-head span { color: #a0647a; font-size: 14px; }
+
+        .alert {
+            padding: 13px 16px;
+            border-radius: 16px;
+            margin-bottom: 18px;
+            font-weight: 600;
+            font-size: 14px;
+        }
+        .alert.error   { background: #ffe3ea; color: var(--berry); border: 1px solid #ffc2d1; }
+        .alert.success { background: #e5f8ea; color: #247a3d; border: 1px solid #bfe9cb; }
+        .alert.success a { color: #247a3d; font-weight: 700; }
+
+        .row { display: grid; grid-template-columns: 1fr 1fr; gap: 0 16px; }
+        .field { margin-bottom: 15px; }
+
+        label { display: block; font-weight: 700; font-size: 14px; margin-bottom: 6px; }
+
+        input[type="text"], input[type="email"], input[type="password"], textarea {
+            width: 100%;
+            padding: 12px 16px;
+            border: 2px solid #ffd3e1;
+            border-radius: 16px;
+            background: #fff8fb;
+            font-family: inherit;
+            font-size: 15px;
+            color: var(--ink);
+            outline: none;
+            transition: border-color .15s, box-shadow .15s, background .15s;
+        }
+
+        input:focus, textarea:focus {
+            border-color: var(--pink);
+            background: #fff;
+            box-shadow: 0 0 0 4px rgba(255, 107, 154, .18);
+        }
+
+        textarea { resize: vertical; }
+
+        .submit-btn {
+            width: 100%;
+            border: 0;
+            margin-top: 6px;
+            padding: 15px;
+            border-radius: 999px;
+            background: linear-gradient(90deg, var(--pink-deep), var(--pink));
+            color: #fff;
+            font-family: inherit;
+            font-size: 17px;
+            font-weight: 700;
+            cursor: pointer;
+            box-shadow: 0 8px 20px rgba(240, 69, 122, .35);
+            transition: transform .15s, box-shadow .15s;
+        }
+        .submit-btn:hover { transform: translateY(-2px); box-shadow: 0 12px 26px rgba(240, 69, 122, .4); }
+        .submit-btn:focus-visible { outline: 3px solid var(--berry); outline-offset: 3px; }
+
+        .login-link { text-align: center; margin-top: 18px; color: #a0647a; font-size: 14px; }
+        .login-link a { color: var(--pink-deep); font-weight: 700; }
+
+        /* ===== ฟุตเตอร์ ===== */
+        footer {
+            background: linear-gradient(90deg, #f0457a, #ff6b9a);
+            color: #fff;
+            text-align: center;
+            padding: 32px 20px;
+        }
+        footer h2 { margin: 0 0 6px; }
+        footer p { margin: 0; }
+
+        @media (prefers-reduced-motion: reduce) { .float { animation: none; } }
+
+        @media (max-width: 900px) { .f5 { display: none; } }
+
+        @media (max-width: 560px) {
+            .row { grid-template-columns: 1fr; }
+            .form-card { padding: 28px 20px 24px; }
+            .header-inner { justify-content: center; text-align: center; }
+            .stage { padding: 40px 16px 60px; }
+        }
+    </style>
 </head>
 
-<body style="margin:0; background:#ffe5ed; font-family:'Mali',cursive; color:#222;">
+<body>
 
-<header style="background:#ffd5e1; text-align:center; padding:35px 20px;">
-    <div style="font-size:14px; letter-spacing:5px; color:#c1123f;">
-        SWEET MOMENTS EVERY DAY
+<div class="topbar">♡ Baked with love ── ความสุขชิ้นเล็ก ๆ จาก KLONG 6 CAFE ♡</div>
+
+<header class="site-header">
+    <div class="header-inner">
+        <a href="index.php" class="logo">
+            <div class="logo-title">🍒 KLONG 6 CAFE</div>
+            <div class="logo-sub">CAFE ★ BAKERY ★ HAPPINESS</div>
+        </a>
+
+        <a href="login.php" class="pill-btn">เข้าสู่ระบบ</a>
     </div>
 
-    <h1 style="margin:10px 0; color:#c1123f; font-size:36px;">
-        🍒 KLONG 6 CAFE 🍰
-    </h1>
-
-    <p style="margin:0; color:#65313f;">
-        Coffee ♡ Cake ♡ Happiness
-    </p>
 </header>
 
-<nav style="text-align:center; padding:18px 10px;">
-    <a href="index.php"
-       style="display:inline-block; color:#000; text-decoration:none; margin:5px 8px;">
-        หน้าหลัก
-    </a>
+<main class="stage">
 
-    <a href="menu.php"
-       style="display:inline-block; color:#000; text-decoration:none; margin:5px 8px;">
-        เมนู
-    </a>
+    <span class="float f1">🍓</span>
+    <span class="float f2">✨</span>
+    <span class="float f3">🧁</span>
+    <span class="float f4">🍰</span>
+    <span class="float f5">🍒</span>
 
-    <a href="login.php"
-       style="display:inline-block; background:#000; color:#fff; padding:10px 22px; border-radius:50px; text-decoration:none; margin:5px 8px;">
-        เข้าสู่ระบบ
-    </a>
-</nav>
+    <div class="stage-inner">
 
-<section style="max-width:600px; margin:30px auto 70px; padding:0 20px;">
+        <!-- ฟอร์มสมัครสมาชิก (กึ่งกลาง) -->
+        <section class="form-card">
 
-    <div style="background:#fff; border-radius:25px; padding:35px; box-shadow:0 8px 25px rgba(193,18,63,0.10);">
-
-        <div style="text-align:center;">
-            <div style="color:#c1123f; letter-spacing:4px; font-size:14px;">
-                CREATE ACCOUNT
+            <div class="form-head">
+                <h2>♡ สมัครสมาชิก ♡</h2>
+                <span>กรอกข้อมูลของคุณเพื่อเริ่มต้นกับ KLONG 6 CAFE</span>
             </div>
 
-            <h2 style="color:#c1123f; font-size:32px; margin:8px 0 25px;">
-                สมัครสมาชิก 💗
-            </h2>
-        </div>
-
-        <?php if ($error !== ""): ?>
-            <div style="background:#ffe0e0; color:#c1123f; padding:12px 15px; border-radius:12px; margin-bottom:18px;">
-                <?= htmlspecialchars($error) ?>
-            </div>
-        <?php endif; ?>
-
-        <?php if ($success !== ""): ?>
-            <div style="background:#e3f8e8; color:#247a3d; padding:12px 15px; border-radius:12px; margin-bottom:18px;">
-                <?= htmlspecialchars($success) ?>
-
-                <div style="margin-top:10px;">
-                    <a href="login.php" style="color:#247a3d; font-weight:700;">
-                        เข้าสู่ระบบ →
-                    </a>
+            <?php if ($error !== ""): ?>
+                <div class="alert error">
+                    <?= htmlspecialchars($error) ?>
                 </div>
+            <?php endif; ?>
+
+            <?php if ($success !== ""): ?>
+                <div class="alert success">
+                    <?= htmlspecialchars($success) ?>
+
+                    <div style="margin-top:10px;">
+                        <a href="login.php">เข้าสู่ระบบ →</a>
+                    </div>
+                </div>
+            <?php endif; ?>
+
+            <form method="POST">
+
+                <div class="row">
+                    <div class="field">
+                        <label for="firstname">ชื่อ *</label>
+                        <input type="text" id="firstname" name="firstname" required
+                               value="<?= htmlspecialchars($_POST["firstname"] ?? "") ?>">
+                    </div>
+
+                    <div class="field">
+                        <label for="lastname">นามสกุล *</label>
+                        <input type="text" id="lastname" name="lastname" required
+                               value="<?= htmlspecialchars($_POST["lastname"] ?? "") ?>">
+                    </div>
+                </div>
+
+                <div class="field">
+                    <label for="email">อีเมล *</label>
+                    <input type="email" id="email" name="email" required
+                           value="<?= htmlspecialchars($_POST["email"] ?? "") ?>">
+                </div>
+
+                <div class="field">
+                    <label for="telephone">เบอร์โทรศัพท์ *</label>
+                    <input type="text" id="telephone" name="telephone" required
+                           value="<?= htmlspecialchars($_POST["telephone"] ?? "") ?>">
+                </div>
+
+                <div class="row">
+                    <div class="field">
+                        <label for="password">รหัสผ่าน *</label>
+                        <input type="password" id="password" name="password" required minlength="6">
+                    </div>
+
+                    <div class="field">
+                        <label for="confirm_password">ยืนยันรหัสผ่าน *</label>
+                        <input type="password" id="confirm_password" name="confirm_password" required minlength="6">
+                    </div>
+                </div>
+
+                <div class="field">
+                    <label for="address">ที่อยู่</label>
+                    <textarea id="address" name="address" rows="3"><?= htmlspecialchars($_POST["address"] ?? "") ?></textarea>
+                </div>
+
+                <button type="submit" class="submit-btn">สมัครสมาชิก 💗</button>
+
+            </form>
+
+            <div class="login-link">
+                มีบัญชีอยู่แล้ว?
+                <a href="login.php">เข้าสู่ระบบ</a>
             </div>
-        <?php endif; ?>
 
-        <form method="POST">
-
-            <label>ชื่อ *</label>
-            <input
-                type="text"
-                name="firstname"
-                required
-                value="<?= htmlspecialchars($_POST["firstname"] ?? "") ?>"
-                style="width:100%; box-sizing:border-box; padding:13px; margin:7px 0 15px; border:1px solid #ddd; border-radius:12px; font-family:inherit;"
-            >
-
-            <label>นามสกุล *</label>
-            <input
-                type="text"
-                name="lastname"
-                required
-                value="<?= htmlspecialchars($_POST["lastname"] ?? "") ?>"
-                style="width:100%; box-sizing:border-box; padding:13px; margin:7px 0 15px; border:1px solid #ddd; border-radius:12px; font-family:inherit;"
-            >
-
-            <label>อีเมล *</label>
-            <input
-                type="email"
-                name="email"
-                required
-                value="<?= htmlspecialchars($_POST["email"] ?? "") ?>"
-                style="width:100%; box-sizing:border-box; padding:13px; margin:7px 0 15px; border:1px solid #ddd; border-radius:12px; font-family:inherit;"
-            >
-
-            <label>เบอร์โทรศัพท์ *</label>
-            <input
-                type="text"
-                name="telephone"
-                required
-                value="<?= htmlspecialchars($_POST["telephone"] ?? "") ?>"
-                style="width:100%; box-sizing:border-box; padding:13px; margin:7px 0 15px; border:1px solid #ddd; border-radius:12px; font-family:inherit;"
-            >
-
-            <label>รหัสผ่าน *</label>
-            <input
-                type="password"
-                name="password"
-                required
-                minlength="6"
-                style="width:100%; box-sizing:border-box; padding:13px; margin:7px 0 15px; border:1px solid #ddd; border-radius:12px; font-family:inherit;"
-            >
-
-            <label>ยืนยันรหัสผ่าน *</label>
-            <input
-                type="password"
-                name="confirm_password"
-                required
-                minlength="6"
-                style="width:100%; box-sizing:border-box; padding:13px; margin:7px 0 15px; border:1px solid #ddd; border-radius:12px; font-family:inherit;"
-            >
-
-            <label>ที่อยู่</label>
-            <textarea
-                name="address"
-                rows="4"
-                style="width:100%; box-sizing:border-box; padding:13px; margin:7px 0 20px; border:1px solid #ddd; border-radius:12px; font-family:inherit; resize:vertical;"
-            ><?= htmlspecialchars($_POST["address"] ?? "") ?></textarea>
-
-            <button
-                type="submit"
-                style="width:100%; border:0; background:#c1123f; color:#fff; padding:14px; border-radius:50px; font-family:inherit; font-size:17px; font-weight:700; cursor:pointer;">
-                สมัครสมาชิก 💗
-            </button>
-
-        </form>
-
-        <div style="text-align:center; margin-top:20px; color:#777;">
-            มีบัญชีอยู่แล้ว?
-            <a href="login.php" style="color:#c1123f; font-weight:700;">
-                เข้าสู่ระบบ
-            </a>
-        </div>
+        </section>
 
     </div>
+</main>
 
-</section>
-
-<footer style="background:#c1123f; color:#fff; text-align:center; padding:35px 20px;">
+<footer>
     <h2>🍒 KLONG 6 CAFE 🍰</h2>
     <p>Coffee ♡ Cake ♡ Happiness</p>
 </footer>

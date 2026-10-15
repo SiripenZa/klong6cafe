@@ -5,149 +5,304 @@ require_once "conn.php";
 $error = "";
 
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
-
     $email = trim($_POST["email"] ?? "");
     $password = $_POST["password"] ?? "";
 
     if ($email === "" || $password === "") {
-
         $error = "กรุณากรอกอีเมลและรหัสผ่าน";
-
     } else {
+        $sql = "SELECT customer_id, firstname, lastname, email, password, status
+                FROM customers
+                WHERE email = ?
+                LIMIT 1";
 
-        $stmt = $conn->prepare("
-            SELECT customer_id, firstname, lastname, email, password
-            FROM customers
-            WHERE email = ?
-            LIMIT 1
-        ");
+        $stmt = $conn->prepare($sql);
 
-        $stmt->bind_param("s", $email);
-        $stmt->execute();
+        if ($stmt) {
+            $stmt->bind_param("s", $email);
+            $stmt->execute();
+            $result = $stmt->get_result();
+            $customer = $result->fetch_assoc();
+            $stmt->close();
 
-        $result = $stmt->get_result();
-        $customer = $result->fetch_assoc();
+            if ($customer && password_verify($password, $customer["password"])) {
+                if (
+                    isset($customer["status"]) &&
+                    strtolower((string)$customer["status"]) !== "active"
+                ) {
+                    $error = "บัญชีนี้ยังไม่พร้อมใช้งาน";
+                } else {
+                    session_regenerate_id(true);
 
-        if ($customer && password_verify($password, $customer["password"])) {
+                    $_SESSION["customer_id"] = $customer["customer_id"];
+                    $_SESSION["customer_firstname"] = $customer["firstname"];
+                    $_SESSION["customer_lastname"] = $customer["lastname"];
+                    $_SESSION["customer_email"] = $customer["email"];
 
-            $_SESSION["customer_id"] = $customer["customer_id"];
-            $_SESSION["customer_firstname"] = $customer["firstname"];
-            $_SESSION["customer_lastname"] = $customer["lastname"];
-            $_SESSION["customer_email"] = $customer["email"];
-
-            header("Location: index.php");
-            exit;
-
+                    header("Location: index.php");
+                    exit;
+                }
+            } else {
+                $error = "อีเมลหรือรหัสผ่านไม่ถูกต้อง";
+            }
         } else {
-
-            $error = "อีเมลหรือรหัสผ่านไม่ถูกต้อง";
+            $error = "ไม่สามารถตรวจสอบข้อมูลได้ กรุณาลองใหม่";
         }
-
-        $stmt->close();
     }
 }
 ?>
-
 <!DOCTYPE html>
 <html lang="th">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>เข้าสู่ระบบ | KLONG 6 CAFE</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>เข้าสู่ระบบ | Klong 6 Cafe</title>
+<!-- นำเข้า Google Font (Prompt) -->
+<link href="https://fonts.googleapis.com/css2?family=Prompt:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 
-    <link href="https://fonts.googleapis.com/css2?family=Mali:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+html, body {
+    width: 100%;
+    height: 100vh;
+    font-family: 'Prompt', sans-serif;
+    overflow: hidden;
+}
+
+/* ทำให้หน้าจอเป็นฉากหลังเต็มจอและจัดกึ่งกลาง */
+.page-scene {
+    position: relative;
+    width: 100vw;
+    height: 100vh;
+    background-image: url('login.png');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* ปรับตำแหน่ง top และ padding-top เพื่อดึงเนื้อหาด้านบนลงมาให้อยู่ในกรอบพอดี */
+.login-wrapper {
+    position: absolute;
+    top: 53%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 420px;
+    padding: 35px 30px 25px 30px; /* เพิ่มพื้นที่ด้านบน (padding-top) ให้ข้อความ WELCOME BACK ลงมาต่ำกว่าโบว์ */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    color: #a83e70;
+}
+
+.login-content {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.welcome {
+    font-size: 13px;
+    font-weight: 500;
+    letter-spacing: 2px;
+    color: #b0576e;
+    margin-bottom: 6px;
+    text-align: center;
+}
+
+.login-title {
+    font-size: 26px;
+    font-weight: 600;
+    color: #d6336c;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+/* ข้อความแจ้งเตือน Error */
+.error-message {
+    width: 100%;
+    margin-bottom: 15px;
+    padding: 12px 15px;
+    border: 1px dashed #ffb3c1;
+    border-radius: 25px;
+    background: rgba(255, 240, 243, 0.9);
+    color: #b52d50;
+    text-align: center;
+    font-size: 13px;
+}
+
+.form-group {
+    width: 100%;
+    margin-bottom: 15px;
+}
+
+.form-input {
+    display: block;
+    width: 100%;
+    padding: 14px 20px;
+    border: 1px solid #ffccd5;
+    border-radius: 30px;
+    outline: none;
+    background: rgba(255, 255, 255, 0.9);
+    color: #555;
+    font-family: inherit;
+    font-size: 14px;
+    transition: all 0.3s ease;
+}
+
+.form-input:focus {
+    background: #ffffff;
+    border-color: #ff6b8b;
+    box-shadow: 0 0 10px rgba(255, 107, 139, 0.3);
+}
+
+.form-input::placeholder {
+    color: #b897a1;
+}
+
+/* ปุ่มเข้าสู่ระบบ */
+.login-button {
+    display: block;
+    width: 100%;
+    margin-top: 5px;
+    margin-bottom: 15px;
+    padding: 14px;
+    border: none;
+    border-radius: 30px;
+    background: linear-gradient(135deg, #ff416c, #ff4b2b);
+    box-shadow: 0 4px 15px rgba(255, 65, 108, 0.4);
+    color: white;
+    font-family: inherit;
+    font-size: 15px;
+    font-weight: 500;
+    cursor: pointer;
+    text-align: center;
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.login-button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(255, 65, 108, 0.6);
+}
+
+/* เส้นแบ่ง */
+.divider {
+    width: 100%;
+    margin: 5px 0 12px;
+    color: #b0576e;
+    font-size: 13px;
+    font-weight: 300;
+    text-align: center;
+}
+
+/* ปุ่มสมัครสมาชิก */
+.register-button {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    margin-bottom: 12px;
+    padding: 13px;
+    border: 1.5px solid #ff8fa3;
+    border-radius: 30px;
+    background: transparent;
+    color: #d6336c;
+    font-family: inherit;
+    font-size: 14px;
+    font-weight: 500;
+    text-decoration: none;
+    transition: background 0.2s;
+}
+
+.register-button:hover {
+    background: rgba(255, 143, 163, 0.15);
+}
+
+/* ปุ่มกลับหน้าหลัก */
+.menu-button {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    padding: 6px;
+    border: none;
+    background: transparent;
+    color: #b0576e;
+    font-family: inherit;
+    font-size: 13px;
+    text-decoration: none;
+    transition: color 0.2s;
+}
+
+.menu-button:hover {
+    color: #ff416c;
+}
+</style>
 </head>
 
-<body style="margin:0; background:#ffe5ed; font-family:'Mali',cursive; color:#222;">
+<body>
+<div class="page-scene">
+    <section class="login-wrapper">
+        <div class="login-content">
 
-<header style="background:#ffd5e1; text-align:center; padding:35px 20px;">
-    <div style="font-size:14px; letter-spacing:5px; color:#c1123f;">
-        SWEET MOMENTS EVERY DAY
-    </div>
+            <div class="welcome">❤ WELCOME BACK ❤</div>
+            <h1 class="login-title">เข้าสู่ระบบ</h1>
 
-    <h1 style="margin:10px 0; color:#c1123f; font-size:36px;">
-        🍒 KLONG 6 CAFE 🍰
-    </h1>
+            <?php if ($error !== ""): ?>
+                <div class="error-message" role="alert">
+                    <?= htmlspecialchars($error, ENT_QUOTES, "UTF-8") ?>
+                </div>
+            <?php endif; ?>
 
-    <p style="margin:0; color:#65313f;">
-        Coffee ♡ Cake ♡ Happiness
-    </p>
-</header>
+            <form method="POST" action="login.php" style="width: 100%;">
+                <div class="form-group">
+                    <input
+                        type="email"
+                        name="email"
+                        class="form-input"
+                        placeholder="อีเมล"
+                        value="<?= htmlspecialchars($_POST["email"] ?? "", ENT_QUOTES, "UTF-8") ?>"
+                        autocomplete="email"
+                        required
+                    >
+                </div>
 
-<section style="max-width:480px; margin:60px auto 80px; padding:0 20px;">
+                <div class="form-group">
+                    <input
+                        type="password"
+                        name="password"
+                        class="form-input"
+                        placeholder="รหัสผ่าน"
+                        autocomplete="current-password"
+                        required
+                    >
+                </div>
 
-    <div style="background:#fff; border-radius:25px; padding:35px; box-shadow:0 8px 25px rgba(193,18,63,0.10);">
+                <button type="submit" class="login-button">
+                    ☕ เข้าสู่ระบบ ➜
+                </button>
+            </form>
 
-        <div style="text-align:center;">
-            <div style="color:#c1123f; letter-spacing:4px; font-size:14px;">
-                WELCOME BACK
-            </div>
+            <div class="divider">ยังไม่มีบัญชี?</div>
 
-            <h2 style="color:#c1123f; font-size:32px; margin:8px 0 25px;">
-                เข้าสู่ระบบ 💗
-            </h2>
-        </div>
-
-        <?php if ($error !== ""): ?>
-            <div style="background:#ffe0e0; color:#c1123f; padding:12px 15px; border-radius:12px; margin-bottom:18px;">
-                <?= htmlspecialchars($error) ?>
-            </div>
-        <?php endif; ?>
-
-        <form method="POST">
-
-            <label>อีเมล</label>
-
-            <input
-                type="email"
-                name="email"
-                required
-                value="<?= htmlspecialchars($_POST["email"] ?? "") ?>"
-                style="width:100%; box-sizing:border-box; padding:14px; margin:7px 0 18px; border:1px solid #ddd; border-radius:12px; font-family:inherit;"
-            >
-
-            <label>รหัสผ่าน</label>
-
-            <input
-                type="password"
-                name="password"
-                required
-                style="width:100%; box-sizing:border-box; padding:14px; margin:7px 0 22px; border:1px solid #ddd; border-radius:12px; font-family:inherit;"
-            >
-
-            <button
-                type="submit"
-                style="width:100%; border:0; background:#c1123f; color:#fff; padding:14px; border-radius:50px; font-family:inherit; font-size:17px; font-weight:700; cursor:pointer;">
-                เข้าสู่ระบบ 💗
-            </button>
-
-        </form>
-
-        <div style="text-align:center; margin-top:20px; color:#777;">
-            ยังไม่มีบัญชี?
-            <a href="register.php" style="color:#c1123f; font-weight:700;">
-                สมัครสมาชิก
+            <a href="register.php" class="register-button">
+                👤 สมัครสมาชิก
             </a>
-        </div>
 
-        <div style="text-align:center; margin-top:15px;">
-            <a href="index.php" style="color:#777; text-decoration:none;">
-                ← กลับหน้าหลัก
+            <a href="index.php" class="menu-button">
+                🏠 กลับหน้าหลัก
             </a>
+
         </div>
-
-    </div>
-
-</section>
-
-<footer style="background:#c1123f; color:#fff; text-align:center; padding:35px 20px;">
-    <h2>🍒 KLONG 6 CAFE 🍰</h2>
-    <p>Coffee ♡ Cake ♡ Happiness</p>
-</footer>
-
+    </section>
+</div>
 </body>
 </html>
-
-<?php
-$conn->close();
-?>
