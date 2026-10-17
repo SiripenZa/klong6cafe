@@ -9,6 +9,12 @@ if (!isset($_SESSION['admin_id'])) {
 
 $error = '';
 
+$categories = $conn->query("
+    SELECT DISTINCT category_id, category_name
+    FROM categories
+    ORDER BY category_name
+");
+
 function h($value) {
     return htmlspecialchars((string)$value, ENT_QUOTES, 'UTF-8');
 }
@@ -17,6 +23,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     // รับค่าจากฟอร์ม
     $cake_id     = trim($_POST['cake_id'] ?? '');
+    $category_id = trim($_POST['category_id'] ?? '');
     $cake_name   = trim($_POST['cake_name'] ?? '');
     $description = trim($_POST['description'] ?? '');
     $price       = $_POST['price'] ?? '';
@@ -26,40 +33,18 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     // ตรวจสอบข้อมูล
     if ($cake_id === '') {
-
         $error = 'กรุณากรอกรหัสเค้ก';
-
+    } elseif ($category_id === '') {
+        $error = 'กรุณาเลือกหมวดหมู่เค้ก';
     } elseif ($cake_name === '') {
-
         $error = 'กรุณากรอกชื่อเค้ก';
-
-    } elseif (
-        $price === '' ||
-        !is_numeric($price) ||
-        (float)$price < 0
-    ) {
-
+    } elseif ($price === '' || !is_numeric($price) || (float)$price < 0) {
         $error = 'กรุณากรอกราคาให้ถูกต้อง';
-
-    } elseif (
-        $stock === '' ||
-        !is_numeric($stock) ||
-        (float)$stock < 0 ||
-        (float)$stock != (int)$stock
-    ) {
-
+    } elseif ($stock === '' || !is_numeric($stock) || (float)$stock < 0 || (float)$stock != (int)$stock) {
         $error = 'กรุณากรอกจำนวนสต็อกเป็นจำนวนเต็มตั้งแต่ 0 ขึ้นไป';
-
-    } elseif (
-        !in_array(
-            $status,
-            ['available', 'unavailable'],
-            true
-        )
-    ) {
+    } elseif (!in_array($status,['available', 'unavailable'],true)) {
         $error = 'สถานะสินค้าไม่ถูกต้อง';
     } else {
-
         // ตรวจสอบว่ารหัสเค้กซ้ำหรือไม่
         $check = $conn->prepare(
             "SELECT cake_id
@@ -67,7 +52,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
              WHERE cake_id = ?
              LIMIT 1"
         );
-
         if (!$check) {
             $error =
                 'ตรวจสอบรหัสเค้กไม่สำเร็จ: '
@@ -77,12 +61,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 's',
                 $cake_id
             );
-
             $check->execute();
             $checkResult = $check->get_result();
             $exists = $checkResult->num_rows > 0;
             $check->close();
-
             if ($exists) {
                 $error =
                     'รหัสเค้กนี้มีอยู่แล้ว กรุณาใช้รหัสอื่น';
@@ -95,6 +77,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     "INSERT INTO cake
                     (
                         cake_id,
+                        category_id,
                         cake_name,
                         description,
                         price,
@@ -102,7 +85,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                         image,
                         status
                     )
-                    VALUES (?, ?, ?, ?, ?, ?, ?)"
+                    VALUES (?, ?, ?, ?, ?, ?, ?, ?)"
                 );
 
                 if (!$stmt) {
@@ -111,15 +94,17 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                         . $conn->error;
                 } else {
                     $stmt->bind_param(
-                        'sssdiss',
+                        'ssssdiss',
                         $cake_id,
+                        $category_id,
                         $cake_name,
                         $description,
                         $price,
                         $stock,
                         $image,
                         $status
-                    );
+                );
+
                     if ($stmt->execute()) {
                         $stmt->close();
                         header(
@@ -146,17 +131,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <meta
     name="viewport"
     content="width=device-width, initial-scale=1">
-<title>
-    เพิ่มเค้ก | KLONG 6 CAFE
-</title>
-
-<link
-    href="https://fonts.googleapis.com/css2?family=Mali:wght@400;500;600;700&display=swap"
-    rel="stylesheet"
->
+<title>เพิ่มเค้ก | KLONG 6 CAFE</title>
+<link href="https://fonts.googleapis.com/css2?family=Mali:wght@400;500;600;700&display=swap" rel="stylesheet">
 
 <style>
-
 /* =========================
    RESET
 ========================= */
@@ -172,7 +150,6 @@ html {
 ========================= */
 body {
     margin: 0;
-
     background: linear-gradient(
         180deg,
         #fff1f6 0%,
@@ -189,12 +166,7 @@ body {
 ========================= */
 header {
     position: relative;
-    background:
-        linear-gradient(
-            120deg,
-            rgba(255, 113, 164, 0.95),
-            rgba(255, 183, 205, 0.95)
-        );
+    background:linear-gradient(120deg,rgba(255, 113, 164, 0.95),rgba(255, 183, 205, 0.95));
     padding: 22px 5%;
     display: flex;
     align-items: center;
@@ -202,8 +174,7 @@ header {
     gap: 20px;
     flex-wrap: wrap;
     overflow: hidden;
-    box-shadow:
-        0 5px 25px rgba(193, 18, 63, .12);
+    box-shadow: 0 5px 25px rgba(193, 18, 63, .12);
 }
 
 header::before {
@@ -222,8 +193,7 @@ header::after {
     font-size: 45px;
     right: 7%;
     top: 15px;
-    animation:
-        floating 4s ease-in-out infinite;
+    animation: floating 4s ease-in-out infinite;
 }
 
 /* =========================
@@ -238,8 +208,7 @@ header::after {
     font-size: 30px;
     font-weight: 700;
     color: white;
-    text-shadow:
-        0 3px 10px rgba(150, 0, 50, .18);
+    text-shadow: 0 3px 10px rgba(150, 0, 50, .18);
 }
 
 .subtitle {
@@ -256,8 +225,7 @@ header::after {
     position: relative;
     z-index: 5;
     background: rgba(255,255,255,.16);
-    border:
-        1px solid rgba(255,255,255,.75);
+    border: 1px solid rgba(255,255,255,.75);
     color: white;
     text-decoration: none;
     padding: 11px 22px;
@@ -271,8 +239,7 @@ header::after {
     background: white;
     color: #c1123f;
     transform: translateY(-3px);
-    box-shadow:
-        0 7px 18px rgba(150,0,50,.18);
+    box-shadow: 0 7px 18px rgba(150,0,50,.18);
 }
 
 /* =========================
@@ -289,8 +256,7 @@ header::after {
     left: -20px;
     top: 180px;
     font-size: 55px;
-    animation:
-        floating 5s ease-in-out infinite;
+    animation: floating 5s ease-in-out infinite;
 }
 
 .decor.two {
@@ -305,8 +271,7 @@ header::after {
     left: 7%;
     bottom: 40px;
     font-size: 35px;
-    animation:
-        floating 4.5s ease-in-out infinite;
+    animation: floating 4.5s ease-in-out infinite;
 }
 
 /* =========================
@@ -325,8 +290,7 @@ header::after {
 ========================= */
 .page-heading {
     text-align: center;
-    animation:
-        fadeUp .7s ease both;
+    animation: fadeUp .7s ease both;
 }
 
 .page-heading .small-title {
@@ -337,8 +301,7 @@ header::after {
 }
 
 .page-heading h1 {
-    margin:
-        8px 0 5px;
+    margin: 8px 0 5px;
     color: #c1123f;
     font-size: 38px;
 }
@@ -366,92 +329,62 @@ header::after {
     animation: fadeUp .8s ease both;
 }
 
-
 .toolbar h2 {
     margin: 0;
-
     color: #a31643;
 }
 
-
 .toolbar-actions {
     display: flex;
-
     gap: 10px;
-
     flex-wrap: wrap;
 }
-
 
 /* =========================
    BUTTON
 ========================= */
-
 .btn {
     display: inline-block;
-
-    border:
-        1px solid transparent;
-
+    border: 1px solid transparent;
     border-radius: 30px;
-
     padding: 11px 20px;
-
     text-decoration: none;
-
     font-family: inherit;
-
     font-weight: 700;
-
     cursor: pointer;
-
     text-align: center;
-
     transition: .3s ease;
 }
 
-
 .btn:hover {
     transform: translateY(-3px);
-
-    box-shadow:
-        0 7px 16px rgba(193,18,63,.18);
+    box-shadow: 0 7px 16px rgba(193,18,63,.18);
 }
-
 
 /* =========================
    BUTTON ADD
 ========================= */
-
 .btn-add {
     background: #f52b7c;
-
     color: white;
 }
-
 
 .btn-add:hover {
     background: #d91d67;
 }
 
-
 /* =========================
    BUTTON EDIT
 ========================= */
-
 .btn-edit {
     background: #ffd1df;
-
     color: #8e1637;
 }
 
-
 .btn-edit:hover {
     background: #c1123f;
-
     color: white;
 }
-
 
 /* =========================
    BUTTON DELETE
@@ -459,176 +392,111 @@ header::after {
 
 .btn-delete {
     background: #292126;
-
     color: white;
 }
-
 
 .btn-delete:hover {
     background: #555;
 }
 
-
 /* =========================
    BUTTON HOME
 ========================= */
-
 .btn-home {
     background: white;
-
     color: #8e1637;
-
     border-color: #f3c4d1;
 }
 
-
 .btn-home:hover {
     background: #c1123f;
-
     color: white;
 }
-
 
 /* =========================
    MESSAGE
 ========================= */
-
 .error {
     margin: 20px 0;
-
     padding: 14px 18px;
-
     background: #ffe0e6;
-
     border-radius: 15px;
-
     color: #991033;
-
-    animation:
-        fadeUp .5s ease both;
+    animation: fadeUp .5s ease both;
 }
-
 
 /* =========================
    FORM CARD
 ========================= */
-
 .form-card {
     margin-top: 25px;
-
-    background:
-        rgba(255,255,255,.92);
-
+    background: rgba(255,255,255,.92);
     border-radius: 25px;
-
     padding: 35px;
-
-    box-shadow:
-        0 8px 30px rgba(193,18,63,.08);
-
-    border:
-        1px solid #f7dce4;
-
-    animation:
-        fadeUp .9s ease both;
+    box-shadow: 0 8px 30px rgba(193,18,63,.08);
+    border: 1px solid #f7dce4;
+    animation: fadeUp .9s ease both;
 }
-
 
 /* =========================
    FORM GROUP
 ========================= */
-
 .form-group {
     margin-bottom: 22px;
 }
 
-
 label {
     display: block;
-
     font-weight: 700;
-
     color: #a31643;
-
     margin-bottom: 8px;
 }
-
 
 /* =========================
    INPUT
 ========================= */
-
 input,
 textarea,
 select {
     width: 100%;
-
     box-sizing: border-box;
-
     padding: 13px 16px;
-
-    border:
-        1px solid #f0ccd7;
-
+    border: 1px solid #f0ccd7;
     border-radius: 15px;
-
-    font-family:
-        'Mali', cursive;
-
+    font-family: 'Mali', cursive;
     font-size: 16px;
-
     background: #fff;
-
     color: #632b3b;
-
     outline: none;
-
-    transition:
-        .3s ease;
+    transition: .3s ease;
 }
-
 
 input:focus,
 textarea:focus,
 select:focus {
-
-    border-color:
-        #f52b7c;
-
-    box-shadow:
-        0 0 0 4px
-        rgba(245,43,124,.10);
+    border-color: #f52b7c;
+    box-shadow:0 0 0 4px rgba(245,43,124,.10);
 }
-
 
 textarea {
     resize: vertical;
 }
 
-
 /* =========================
    FORM ROW
 ========================= */
-
 .form-row {
     display: flex;
-
     gap: 20px;
-
     flex-wrap: wrap;
-
     margin-bottom: 22px;
 }
 
-
 .form-row .form-group {
     flex: 1;
-
     min-width: 220px;
-
     margin-bottom: 0;
 }
-
 
 /* =========================
    HELP TEXT
@@ -636,188 +504,126 @@ textarea {
 
 .help-text {
     color: #98717c;
-
     font-size: 13px;
-
     margin-top: 7px;
 }
-
 
 /* =========================
    FORM BUTTONS
 ========================= */
-
 .form-buttons {
     display: flex;
-
     gap: 12px;
-
     justify-content: center;
-
     flex-wrap: wrap;
-
     margin-top: 30px;
 }
-
 
 /* =========================
    CANCEL
 ========================= */
-
 .btn-cancel {
     background: white;
-
     color: #8e1637;
-
-    border:
-        1px solid #f3c4d1;
+    border: 1px solid #f3c4d1;
 }
-
 
 .btn-cancel:hover {
     background: #c1123f;
-
     color: white;
 }
-
 
 /* =========================
    SUBMIT
 ========================= */
-
 .btn-submit {
     background: #f52b7c;
-
     color: white;
-
-    padding:
-        11px 25px;
+    padding: 11px 25px;
 }
-
 
 .btn-submit:hover {
     background: #d91d67;
 }
 
-
 /* =========================
    ANIMATION
 ========================= */
-
 @keyframes fadeUp {
-
     from {
         opacity: 0;
-
-        transform:
-            translateY(25px);
+        transform: translateY(25px);
     }
-
     to {
         opacity: 1;
-
-        transform:
-            translateY(0);
+        transform: translateY(0);
     }
-
 }
-
 
 @keyframes floating {
-
     0%,
     100% {
-        transform:
-            translateY(0);
+        transform: translateY(0);
     }
-
     50% {
-        transform:
-            translateY(-10px);
+        transform: translateY(-10px);
     }
 
 }
-
 
 /* =========================
    RESPONSIVE
 ========================= */
-
 @media (max-width: 1000px) {
-
     header {
         justify-content: center;
-
         text-align: center;
     }
-
 }
 
 
 @media (max-width: 700px) {
-
     .page-heading h1 {
         font-size: 30px;
     }
-
     .toolbar {
         align-items: stretch;
     }
-
     .toolbar-actions {
         width: 100%;
     }
-
     .toolbar-actions .btn {
         flex: 1;
     }
-
 }
 
-
 @media (max-width: 550px) {
-
     .container {
-        padding:
-            0 12px 40px;
-
+        padding: 0 12px 40px;
         margin-top: 30px;
     }
-
     .brand {
         font-size: 24px;
     }
-
     .page-heading h1 {
         font-size: 27px;
     }
-
     .toolbar {
         padding: 15px;
-
         border-radius: 20px;
     }
-
     .form-card {
         padding: 22px;
-
         border-radius: 20px;
     }
-
 }
-
 </style>
-
 </head>
-
-
 <body>
-
 
 <!-- =========================
      DECORATIONS
 ========================= -->
-
 <div class="decor one">
     🍓
 </div>
@@ -830,15 +636,12 @@ textarea {
     ♡
 </div>
 
-
 <!-- =========================
      HEADER
 ========================= -->
 
 <header>
-
     <div class="brand-area">
-
         <div class="brand">
             🍒 Klong 6 Cafe
         </div>
@@ -846,9 +649,7 @@ textarea {
         <div class="subtitle">
             ADMIN PANEL
         </div>
-
     </div>
-
 
     <a
         href="logout.php"
@@ -856,21 +657,15 @@ textarea {
     >
         ออกจากระบบ
     </a>
-
 </header>
-
 
 <!-- =========================
      MAIN
 ========================= -->
 
 <main class="container">
-
-
     <!-- PAGE HEADING -->
-
     <div class="page-heading">
-
         <div class="small-title">
             KLONG 6 CAFE
         </div>
@@ -885,63 +680,43 @@ textarea {
 
     </div>
 
-
     <!-- TOOLBAR -->
-
     <div class="toolbar">
-
         <h2>
             🍰 จัดการเค้ก
         </h2>
 
-
         <div class="toolbar-actions">
-
             <a
                 href="cake.php"
                 class="btn btn-home"
             >
                 ← กลับหน้าเค้ก
             </a>
-
         </div>
-
     </div>
 
-
     <!-- ERROR -->
-
     <?php if ($error !== ''): ?>
-
         <div class="error">
-
             <?= h($error) ?>
-
         </div>
-
     <?php endif; ?>
 
-
     <!-- FORM -->
-
     <div class="form-card">
-
         <form
             method="POST"
             action=""
-        >
-
+>
 
             <!-- =====================
                  CAKE ID
             ====================== -->
-
             <div class="form-group">
-
                 <label for="cake_id">
                     รหัสเค้ก (cake_id)
                 </label>
-
                 <input
                     type="text"
                     id="cake_id"
@@ -950,7 +725,7 @@ textarea {
                         $_POST['cake_id'] ?? ''
                     ) ?>"
                     placeholder="เช่น C001"
-                    maxlength="50"
+                    maxlength="11"
                     required
                 >
 
@@ -959,14 +734,45 @@ textarea {
                 </div>
 
             </div>
+<!-- =====================
+     CATEGORY
+===================== -->
 
+<div class="form-group">
+    <label for="category_id">
+        หมวดหมู่
+    </label>
+    <select
+        id="category_id"
+        name="category_id"
+        required
+    >
+        <option value="">
+            -- เลือกหมวดหมู่ --
+        </option>
+
+        <?php if ($categories): ?>
+            <?php while ($category = $categories->fetch_assoc()): ?>
+                <option
+                    value="<?= h($category['category_id']) ?>"
+                    <?= (
+                        ($_POST['category_id'] ?? '')
+                        === $category['category_id']
+                    )
+                    ? 'selected'
+                    : '' ?>
+                >
+                    <?= h($category['category_name']) ?>
+                </option>
+            <?php endwhile; ?>
+        <?php endif; ?>
+    </select>
+</div>
 
             <!-- =====================
                  CAKE NAME
             ====================== -->
-
             <div class="form-group">
-
                 <label for="cake_name">
                     ชื่อเค้ก
                 </label>
@@ -981,16 +787,13 @@ textarea {
                     placeholder="เช่น Blue flower cake"
                     required
                 >
-
             </div>
-
 
             <!-- =====================
                  DESCRIPTION
             ====================== -->
 
             <div class="form-group">
-
                 <label for="description">
                     รายละเอียดสินค้า
                 </label>
@@ -1006,16 +809,11 @@ textarea {
 
             </div>
 
-
             <!-- =====================
                  PRICE / STOCK
             ====================== -->
-
             <div class="form-row">
-
-
                 <div class="form-group">
-
                     <label for="price">
                         ราคา (บาท)
                     </label>
@@ -1032,12 +830,9 @@ textarea {
                         placeholder="420.00"
                         required
                     >
-
                 </div>
 
-
                 <div class="form-group">
-
                     <label for="stock">
                         จำนวนสต็อก
                     </label>
@@ -1056,17 +851,11 @@ textarea {
                     >
 
                 </div>
-
-
             </div>
-
-
-            <!-- =====================
-                 IMAGE
+<!-- =====================
+        IMAGE
 ===================== -->
-
             <div class="form-group">
-
                 <label for="image">
                     ชื่อไฟล์รูปสินค้า
                 </label>
@@ -1084,25 +873,20 @@ textarea {
                 <div class="help-text">
                     ใส่ชื่อไฟล์รูปหรือพาธรูปที่ระบบของคุณใช้งานอยู่
                 </div>
-
             </div>
 
-
-            <!-- =====================
-                 STATUS
+<!-- =====================
+        STATUS
 ===================== -->
 
             <div class="form-group">
-
                 <label for="status">
                     สถานะสินค้า
                 </label>
-
                 <select
                     id="status"
                     name="status"
                 >
-
                     <option
                         value="available"
                         <?= (
@@ -1114,8 +898,6 @@ textarea {
                     >
                         พร้อมขาย
                     </option>
-
-
                     <option
                         value="unavailable"
                         <?= (
@@ -1127,18 +909,15 @@ textarea {
                     >
                         ไม่พร้อมขาย
                     </option>
-
                 </select>
-
             </div>
 
 
-            <!-- =====================
-                 BUTTONS
+<!-- =====================
+        BUTTONS
 ===================== -->
 
             <div class="form-buttons">
-
                 <a
                     href="cake.php"
                     class="btn btn-cancel"
@@ -1146,30 +925,18 @@ textarea {
                     ยกเลิก
                 </a>
 
-
                 <button
                     type="submit"
                     class="btn btn-submit"
                 >
                     + เพิ่มเค้ก
                 </button>
-
             </div>
-
-
         </form>
-
     </div>
-
-
 </main>
-
-
 </body>
 </html>
-
 <?php
-
 $conn->close();
-
 ?>

@@ -1,3 +1,4 @@
+
 <?php
 session_start();
 require_once "conn.php";
@@ -19,6 +20,8 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         $error = "กรุณากรอกข้อมูลที่จำเป็นให้ครบ";
     } elseif (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
         $error = "รูปแบบอีเมลไม่ถูกต้อง";
+    } elseif (!preg_match('/^[0-9]{10}$/', $telephone)) {
+        $error = "เบอร์โทรศัพท์ต้องเป็นตัวเลข 10 หลัก";
     } elseif (strlen($password) < 6) {
         $error = "รหัสผ่านต้องมีอย่างน้อย 6 ตัวอักษร";
     } elseif ($password !== $confirm_password) {
@@ -45,25 +48,43 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         } else {
 
             // สร้าง customer_id
-            $customer_id = "CUS" . date("ymdHis") . rand(10, 99);
+do {
+    $customer_id = "CUS" . date("ymdHis") . rand(100, 999);
 
+    $check_id = $conn->prepare("
+        SELECT customer_id
+        FROM customers
+        WHERE customer_id = ?
+        LIMIT 1
+    ");
+
+    $check_id->bind_param("s", $customer_id);
+    $check_id->execute();
+
+    $id_result = $check_id->get_result();
+    $id_exists = $id_result->num_rows > 0;
+
+    $check_id->close();
+
+} while ($id_exists);
             // เข้ารหัสรหัสผ่าน
             $password_hash = password_hash($password, PASSWORD_DEFAULT);
 
             $stmt = $conn->prepare("
-                INSERT INTO customers
-                (
-                    customer_id,
-                    firstname,
-                    lastname,
-                    email,
-                    telephone,
-                    password,
-                    address,
-                    created_at
-                )
-                VALUES (?, ?, ?, ?, ?, ?, ?, NOW())
-            ");
+    INSERT INTO customers
+    (
+        customer_id,
+        firstname,
+        lastname,
+        email,
+        telephone,
+        password,
+        address,
+        created_at,
+        status
+    )
+    VALUES (?, ?, ?, ?, ?, ?, ?, NOW(), 'active')
+");
 
             $stmt->bind_param(
                 "sssssss",
@@ -348,7 +369,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
         label { display: block; font-weight: 700; font-size: 14px; margin-bottom: 6px; }
 
-        input[type="text"], input[type="email"], input[type="password"], textarea {
+        input[type="text"], input[type="email"], input[type="tel"], input[type="password"], textarea {
             width: 100%;
             padding: 12px 16px;
             border: 2px solid #ffd3e1;
@@ -419,7 +440,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
 <header class="site-header">
     <div class="header-inner">
-        <a href="index.php" class="logo">
+        <a href="Home.php" class="logo">
             <div class="logo-title">🍒 KLONG 6 CAFE</div>
             <div class="logo-sub">CAFE ★ BAKERY ★ HAPPINESS</div>
         </a>
@@ -487,7 +508,9 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
                 <div class="field">
                     <label for="telephone">เบอร์โทรศัพท์ *</label>
-                    <input type="text" id="telephone" name="telephone" required
+                          <input type="tel" id="telephone" name="telephone" required
+                              inputmode="numeric" minlength="10" maxlength="10"
+                              pattern="[0-9]{10}" title="กรอกตัวเลข 10 หลัก"
                            value="<?= htmlspecialchars($_POST["telephone"] ?? "") ?>">
                 </div>
 

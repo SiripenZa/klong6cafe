@@ -269,7 +269,7 @@ html, body {
                 </button>
             </form>
 
-            <a href="../index.php" class="menu-button">
+            <a href="../Home.php" class="menu-button">
                 🏠 กลับหน้าเว็บไซต์
             </a>
 

@@ -804,6 +804,49 @@ body{font-family:'Mali',sans-serif;background:#fff8fb;color:#812349;background-i
     -webkit-backdrop-filter: blur(12px);
 }
 
+.announcement{display:none}
+.header{position:absolute;top:0;left:0;z-index:10;width:100%;padding:17px 5%;background:linear-gradient(180deg,rgba(0,0,0,.5),transparent);box-shadow:none}
+.header-inner{max-width:1320px;flex-wrap:nowrap}
+.brand{display:flex;align-items:center;gap:10px;color:#fff;text-decoration:none}
+.brand-mark{font-size:29px}
+.brand-name{font-size:clamp(22px,2.5vw,31px);font-weight:700;line-height:1.2;text-shadow:0 2px 10px #000}
+.brand-name small{display:block;margin-top:3px;color:#fff;font-size:10px;letter-spacing:2px}
+.welcome{color:#fff;text-shadow:0 2px 8px #000}
+.account a{display:inline-flex;align-items:center;justify-content:center;min-height:42px;padding:10px 17px;border:1px solid rgba(255,105,160,.9);border-radius:4px;background:rgba(255,182,205,.32);color:#fff;font-size:13px;text-shadow:0 1px 5px rgba(80,20,45,.65);backdrop-filter:blur(8px)}
+.account a[href="register.php"]{background:#ed367f}
+.nav-strip{position:absolute;top:19px;left:50%;z-index:11;width:max-content;max-width:70%;padding:0;transform:translateX(-50%);background:transparent}
+.nav-wrap{position:static;width:fit-content;max-width:100%;margin:0;border:1px solid rgba(255,105,160,.9);border-radius:40px;background:rgba(0,0,0,.22);box-shadow:0 8px 25px rgba(0,0,0,.12);backdrop-filter:blur(8px)}
+.nav-wrap .nav{max-width:1320px;justify-content:center;flex-wrap:nowrap;gap:4px;padding:4px 7px;overflow-x:auto}
+.nav-wrap .nav a{flex:0 0 auto;padding:9px 13px;border-radius:30px;background:transparent;color:#fff;font-size:13px;text-shadow:0 1px 6px rgba(0,0,0,.45)}
+.nav-wrap .nav a:hover,.nav-wrap .nav a.active{background:#ed367f;color:#fff;box-shadow:none}
+@media (min-width:1001px){.cake-hero{min-height:400px;padding-top:125px}}
+@media (max-width:1000px){
+    .header{position:relative;top:auto;left:auto;padding:12px 4%;background:rgba(0,0,0,.65)}
+    .header-inner{flex-wrap:wrap;justify-content:center}
+    .account{margin-left:auto}
+    .nav-strip{position:sticky;top:0;left:auto;width:100%;max-width:none;transform:none;background:rgba(0,0,0,.78)}
+    .nav-wrap{width:100%;max-width:none;border:0;border-top:1px solid rgba(255,105,160,.9);border-bottom:1px solid rgba(255,105,160,.9);border-radius:0;background:transparent;box-shadow:none}
+    .nav-wrap .nav{justify-content:flex-start;padding:7px 10px}
+    .cake-hero{min-height:315px;padding-top:35px}
+}
+@media (max-width:600px){
+    .header{padding:14px 5%;background:rgba(0,0,0,.65)}
+    .header-inner{justify-content:center}
+    .brand-name{font-size:19px}
+    .brand-name small{font-size:8px;letter-spacing:1.5px}
+    .account{justify-content:center;margin:0}
+    .nav-wrap .nav a{padding:9px 12px;font-size:12px}
+}
+
+.plus-button:disabled {
+    background: #aaa !important;
+    color: #fff !important;
+    box-shadow: none !important;
+    cursor: not-allowed !important;
+    opacity: 1;
+    transform: none !important;
+}
+
 </style>
 </head>
 
@@ -818,9 +861,9 @@ body{font-family:'Mali',sans-serif;background:#fff8fb;color:#812349;background-i
 <header class="header">
     <div class="header-inner">
 
-        <a href="index.php" class="brand">
-            🍒 KLONG 6 CAFE
-            <small>CAFE • BAKERY • HAPPINESS</small>
+        <a href="Home.php" class="brand">
+            <span class="brand-mark" aria-hidden="true">🍒</span>
+            <span class="brand-name">KLONG 6 CAFE<small>CAFE • BAKERY • HAPPINESS</small></span>
         </a>
 
         <div class="account">
@@ -850,7 +893,7 @@ body{font-family:'Mali',sans-serif;background:#fff8fb;color:#812349;background-i
   <div class="nav-wrap">
     <nav class="nav">
 
-        <a href="index.php" class="<?= $currentPage === 'index.php' ? 'active' : '' ?>">
+        <a href="Home.php" class="<?= $currentPage === 'Home.php' ? 'active' : '' ?>">
             🏠 หน้าหลัก
         </a>
 
@@ -863,7 +906,7 @@ body{font-family:'Mali',sans-serif;background:#fff8fb;color:#812349;background-i
         </a>
 
         <a href="order.php" class="<?= $currentPage === 'order.php' ? 'active' : '' ?>">
-            🧾 Order
+            🧾 คำสั่งซื้อ
         </a>
 
         <a href="my_orders.php"
@@ -887,9 +930,9 @@ body{font-family:'Mali',sans-serif;background:#fff8fb;color:#812349;background-i
         <div class="cake-kicker">A LITTLE SWEETNESS, A LOT OF LOVE</div>
         <h1>Sweet moments<br><span>with Cake ♡</span></h1>
         <p>เค้กโฮมเมด เนื้อนุ่ม หวานละมุน อบสดใหม่เพื่อเติมความสุขให้ทุกวันของคุณ 🍓</p>
-        <div class="hero-buttons"><a href="#menu">🍰 เลือกเค้กชิ้นโปรด ↓</a><a class="secondary" href="index.php">กลับหน้าแรก ♡</a></div>
+        <div class="hero-buttons"><a href="#menu">🍰 เลือกเค้กชิ้นโปรด ↓</a><a class="secondary" href="Home.php">กลับหน้าแรก ♡</a></div>
     </div>
-    <div class="cake-hero-art"><img src="cake.png" alt="เค้กแสนอร่อยจาก Klong 6 Cafe" onerror="this.onerror=null;this.src='bread.png';"><span class="cake-decoration" aria-hidden="true">🍓 ✨</span></div>
+    <div class="cake-hero-art"><img src="Lemon Cream Cake.jpg" alt="เค้กแสนอร่อยจาก Klong 6 Cafe" onerror="this.onerror=null;this.src='image/Lemon Cream Cake.jpg';"><span class="cake-decoration" aria-hidden="true">🍓 ✨</span></div>
 </section>
 
 <!-- ข้อความแจ้งเตือนจาก Session -->

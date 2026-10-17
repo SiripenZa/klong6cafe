@@ -8,6 +8,11 @@ if (!isset($_SESSION['admin_id'])) {
 }
 
 $error = '';
+$categories = $conn->query("
+    SELECT category_id, category_name
+    FROM categories
+    ORDER BY category_name ASC
+");
 
 function h($value) {
     return htmlspecialchars((string)$value, ENT_QUOTES, 'UTF-8');
@@ -17,6 +22,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     // รับค่าจากฟอร์ม
     $drink_id     = trim($_POST['drink_id'] ?? '');
+    $category_id  = trim($_POST['category_id'] ?? '');
     $drink_name   = trim($_POST['drink_name'] ?? '');
     $description = trim($_POST['description'] ?? '');
     $price       = $_POST['price'] ?? '';
@@ -27,6 +33,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // ตรวจสอบข้อมูล
     if ($drink_id === '') {
         $error = 'กรุณากรอกรหัสเครื่องดื่ม';
+    } elseif ($category_id === '') {
+        $error = 'กรุณาเลือกหมวดหมู่เครื่องดื่ม';
     } elseif ($drink_name === '') {
         $error = 'กรุณากรอกชื่อเครื่องดื่ม';
     } elseif ($price === '' || !is_numeric($price) || (float)$price < 0) {
@@ -70,6 +78,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     "INSERT INTO drink
                     (
                         drink_id,
+                        category_id,
                         drink_name,
                         description,
                         price,
@@ -77,7 +86,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                         image,
                         status
                     )
-                    VALUES (?, ?, ?, ?, ?, ?, ?)"
+                    VALUES (?, ?, ?, ?, ?, ?, ?, ?)"
                 );
 
                 if (!$stmt) {
@@ -85,8 +94,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                            . $conn->error;
                 } else {
                     $stmt->bind_param(
-                        'sssdiss',
+                        'ssssdiss',
                         $drink_id,
+                        $category_id,
                         $drink_name,
                         $description,
                         $price,
@@ -354,7 +364,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     name="drink_id"
                     value="<?= h($_POST['drink_id'] ?? '') ?>"
                     placeholder="เช่น D001"
-                    maxlength="50"
+                    maxlength="11"
                     required
                 >
 
@@ -362,6 +372,46 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     กรอกรหัสเครื่องดื่มที่ไม่ซ้ำกับสินค้าเดิมในฐานข้อมูล
                 </div>
             </div>
+            <!-- หมวดหมู่ -->
+<div class="form-group">
+
+    <label for="category_id">
+        หมวดหมู่
+    </label>
+
+    <select
+        id="category_id"
+        name="category_id"
+        required
+    >
+
+        <option value="">
+            -- เลือกหมวดหมู่ --
+        </option>
+
+        <?php if ($categories): ?>
+
+            <?php while ($category = $categories->fetch_assoc()): ?>
+
+                <option
+                    value="<?= h($category['category_id']) ?>"
+                    <?= (
+                        ($_POST['category_id'] ?? '')
+                        === $category['category_id']
+                    )
+                    ? 'selected'
+                    : '' ?>
+                >
+                    <?= h($category['category_name']) ?>
+                </option>
+
+            <?php endwhile; ?>
+
+        <?php endif; ?>
+
+    </select>
+
+</div>
 
             <!-- ชื่อเครื่องดื่ม -->
             <div class="form-group">
@@ -472,15 +522,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 <button type="submit" class="btn btn-submit">
                     + เพิ่มเครื่องดื่ม
                 </button>
-
             </div>
-
         </form>
-
     </div>
-
 </main>
-
 </body>
 </html>
 

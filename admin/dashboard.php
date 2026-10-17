@@ -48,12 +48,7 @@ body {
 
 header {
     position: relative;
-    background:
-        linear-gradient(
-            120deg,
-            rgba(255, 113, 164, 0.95),
-            rgba(255, 183, 205, 0.95)
-        );
+    background: linear-gradient(120deg,rgba(255, 113, 164, 0.95),rgba(255, 183, 205, 0.95));
     padding: 22px 5%;
     display: flex;
     align-items: center;
@@ -176,7 +171,7 @@ header::after {
 ========================= */
 
 .welcome {
-    text-align: center;
+    text-align: left;
     animation: fadeUp .7s ease both;
 }
 
@@ -217,23 +212,14 @@ header::after {
     position: relative;
     text-decoration: none;
     color: #632b3b;
-
     background: rgba(255,255,255,.92);
-
     padding: 30px;
     border-radius: 25px;
-
     border: 1px solid #f7dce4;
-
-    box-shadow:
-        0 8px 30px rgba(193,18,63,.08);
-
+    box-shadow: 0 8px 30px rgba(193,18,63,.08);
     display: block;
-
     transition: .3s ease;
-
     overflow: hidden;
-
     animation: fadeUp .8s ease both;
 }
 
@@ -283,6 +269,10 @@ header::after {
     font-weight: 700;
 }
 
+.card-wide {
+    grid-column: 1 / -1;
+}
+
 /* =========================
    ANIMATION
 ========================= */
@@ -293,12 +283,10 @@ header::after {
         opacity: 0;
         transform: translateY(25px);
     }
-
     to {
         opacity: 1;
         transform: translateY(0);
     }
-
 }
 
 @keyframes floating {
@@ -307,11 +295,9 @@ header::after {
     100% {
         transform: translateY(0);
     }
-
     50% {
         transform: translateY(-10px);
     }
-
 }
 
 /* =========================
@@ -332,6 +318,10 @@ header::after {
 }
 
 @media (max-width: 700px) {
+
+    .card-wide {
+        grid-column: auto;
+    }
 
     .welcome h1 {
         font-size: 30px;
@@ -369,7 +359,6 @@ header::after {
 </head>
 
 <body>
-
 <!-- ของตกแต่ง -->
 <div class="decor one">🍓</div>
 <div class="decor two">🍰</div>
@@ -382,23 +371,19 @@ header::after {
 <header>
 
     <div class="brand-area">
-
         <div class="brand">
-            🍒 Klong 6 Cafe
+            หน้าจัดการร้าน 🍒 KLONG 6 CAFE
         </div>
 
         <div class="subtitle">
-            ADMIN PANEL
+            ADMIN DASHBOARD
         </div>
-
     </div>
 
     <a href="logout.php" class="logout-btn">
         ออกจากระบบ
     </a>
-
 </header>
-
 
 <!-- =========================
      MAIN
@@ -407,32 +392,17 @@ header::after {
 <main class="container">
 
     <!-- WELCOME -->
-
     <section class="welcome">
-
-        <div class="small-title">
-            ADMIN DASHBOARD
-        </div>
-
         <h1>
-            สวัสดี, <?= htmlspecialchars($fullname, ENT_QUOTES, 'UTF-8') ?> 👋
+            สวัสดี, <?= htmlspecialchars($fullname, ENT_QUOTES, 'UTF-8') ?>
         </h1>
-
-        <p>
-            ยินดีต้อนรับเข้าสู่ระบบจัดการร้าน KLONG 6 CAFE
-        </p>
-
     </section>
-
 
     <!-- CARD GRID -->
 
     <div class="card-grid">
-
         <!-- การ์ดจัดการเค้ก -->
-
         <a href="cake.php" class="card">
-
             <div class="card-icon">
                 🍰
             </div>
@@ -448,18 +418,13 @@ header::after {
             <div class="card-link">
                 เข้าสู่การจัดการเค้ก →
             </div>
-
         </a>
-
-
         <!-- การ์ดจัดการเครื่องดื่ม -->
 
         <a href="drink.php" class="card">
-
             <div class="card-icon">
                 🥤
             </div>
-
             <h2>
                 จัดการเครื่องดื่ม
             </h2>
@@ -471,14 +436,11 @@ header::after {
             <div class="card-link">
                 เข้าสู่การจัดการเครื่องดื่ม →
             </div>
-
         </a>
-
 
         <!-- การ์ดจัดการออเดอร์ -->
 
         <a href="orders.php" class="card">
-
             <div class="card-icon">
                 📦
             </div>
@@ -494,14 +456,11 @@ header::after {
             <div class="card-link">
                 เข้าสู่การจัดการออเดอร์ →
             </div>
-
         </a>
-
 
         <!-- การ์ดลูกค้า -->
 
         <a href="customers.php" class="card">
-
             <div class="card-icon">
                 👥
             </div>
@@ -517,12 +476,28 @@ header::after {
             <div class="card-link">
                 ดูลูกค้า →
             </div>
-
         </a>
 
+        <!-- การ์ดภาพรวมยอดขาย -->
+
+        <a href="sales.php" class="card card-wide">
+            <div class="card-icon">
+                📈
+            </div>
+
+            <h2>
+                ภาพรวมยอดขาย
+            </h2>
+
+            <p>
+                ดูยอดขายวันนี้ รายเดือน กราฟ 7 วัน สินค้าขายดี และออเดอร์ล่าสุด
+            </p>
+
+            <div class="card-link">
+                ดูภาพรวมยอดขาย →
+            </div>
+        </a>
     </div>
-
 </main>
-
 </body>
 </html>

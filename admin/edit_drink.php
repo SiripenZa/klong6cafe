@@ -169,8 +169,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
             if ($stmt->execute()) {
 
-                $message =
-                    'บันทึกข้อมูลเรียบร้อยแล้ว';
+                $message = 'บันทึกข้อมูลเรียบร้อยแล้ว';
 
                 $stmt->close();
 
@@ -199,8 +198,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
                     $result = $stmt->get_result();
 
-                    $product =
-                        $result->fetch_assoc();
+                    $product = $result->fetch_assoc();
 
                     $stmt->close();
                 }
@@ -506,12 +504,122 @@ header::after {
 
 
 /* =========================
+   TOOLBAR
+========================= */
+
+.toolbar {
+
+    background:
+        rgba(255,255,255,.92);
+
+    border:
+        1px solid #f7dce4;
+
+    border-radius:
+        30px;
+
+    padding:
+        22px 28px;
+
+    margin-bottom:
+        25px;
+
+    display:
+        flex;
+
+    align-items:
+        center;
+
+    justify-content:
+        space-between;
+
+    gap:
+        20px;
+
+    box-shadow:
+        0 8px 30px
+        rgba(193,18,63,.06);
+
+    animation:
+        fadeUp .7s ease both;
+}
+
+
+.toolbar h2 {
+
+    margin: 0;
+
+    color:
+        #a9153d;
+
+    font-size:
+        27px;
+
+    font-weight:
+        700;
+}
+
+
+.toolbar-actions {
+
+    display:
+        flex;
+
+    align-items:
+        center;
+}
+
+
+.toolbar-actions .btn-cancel {
+
+    background:
+        white;
+
+    color:
+        #a9153d;
+
+    border:
+        1px solid #f3b9ca;
+
+    padding:
+        11px 25px;
+
+    border-radius:
+        30px;
+
+    white-space:
+        nowrap;
+}
+
+
+.toolbar-actions .btn-cancel:hover {
+
+    background:
+        #c1123f;
+
+    color:
+        white;
+
+    border-color:
+        #c1123f;
+
+    transform:
+        translateY(-3px);
+
+    box-shadow:
+        0 7px 16px
+        rgba(193,18,63,.18);
+}
+
+
+/* =========================
    PAGE HEADING
 ========================= */
 
 .page-heading {
 
-    text-align: center;
+    text-align:
+        center;
 
     animation:
         fadeUp .7s ease both;
@@ -520,13 +628,17 @@ header::after {
 
 .page-heading .small-title {
 
-    color: #c1123f;
+    color:
+        #c1123f;
 
-    font-size: 14px;
+    font-size:
+        14px;
 
-    letter-spacing: 4px;
+    letter-spacing:
+        4px;
 
-    font-weight: 700;
+    font-weight:
+        700;
 }
 
 
@@ -535,17 +647,21 @@ header::after {
     margin:
         8px 0 5px;
 
-    color: #c1123f;
+    color:
+        #c1123f;
 
-    font-size: 38px;
+    font-size:
+        38px;
 }
 
 
 .page-heading p {
 
-    color: #87616c;
+    color:
+        #87616c;
 
-    margin-top: 5px;
+    margin-top:
+        5px;
 }
 
 
@@ -555,17 +671,21 @@ header::after {
 
 .form-card {
 
-    margin-top: 30px;
+    margin-top:
+        30px;
 
     background:
         rgba(255,255,255,.92);
 
-    border-radius: 25px;
+    border-radius:
+        25px;
 
-    padding: 35px;
+    padding:
+        35px;
 
     box-shadow:
-        0 8px 30px rgba(193,18,63,.08);
+        0 8px 30px
+        rgba(193,18,63,.08);
 
     border:
         1px solid #f7dce4;
@@ -581,19 +701,24 @@ header::after {
 
 .form-group {
 
-    margin-bottom: 22px;
+    margin-bottom:
+        22px;
 }
 
 
 label {
 
-    display: block;
+    display:
+        block;
 
-    font-weight: 700;
+    font-weight:
+        700;
 
-    color: #8e1637;
+    color:
+        #8e1637;
 
-    margin-bottom: 8px;
+    margin-bottom:
+        8px;
 }
 
 
@@ -605,7 +730,8 @@ input,
 textarea,
 select {
 
-    width: 100%;
+    width:
+        100%;
 
     padding:
         13px 16px;
@@ -613,18 +739,23 @@ select {
     border:
         1px solid #f3c4d1;
 
-    border-radius: 15px;
+    border-radius:
+        15px;
 
     font-family:
         'Mali', cursive;
 
-    font-size: 16px;
+    font-size:
+        16px;
 
-    background: #fff;
+    background:
+        #fff;
 
-    color: #632b3b;
+    color:
+        #632b3b;
 
-    outline: none;
+    outline:
+        none;
 
     transition:
         .3s ease;
@@ -646,19 +777,24 @@ select:focus {
 
 input[readonly] {
 
-    background: #f7f0f3;
+    background:
+        #f7f0f3;
 
-    color: #87616c;
+    color:
+        #87616c;
 
-    cursor: not-allowed;
+    cursor:
+        not-allowed;
 }
 
 
 textarea {
 
-    resize: vertical;
+    resize:
+        vertical;
 
-    min-height: 110px;
+    min-height:
+        110px;
 }
 
 
@@ -668,23 +804,30 @@ textarea {
 
 .form-row {
 
-    display: flex;
+    display:
+        flex;
 
-    gap: 20px;
+    gap:
+        20px;
 
-    flex-wrap: wrap;
+    flex-wrap:
+        wrap;
 
-    margin-bottom: 22px;
+    margin-bottom:
+        22px;
 }
 
 
 .form-row .form-group {
 
-    flex: 1;
+    flex:
+        1;
 
-    min-width: 220px;
+    min-width:
+        220px;
 
-    margin-bottom: 0;
+    margin-bottom:
+        0;
 }
 
 
@@ -694,11 +837,14 @@ textarea {
 
 .help-text {
 
-    color: #98717c;
+    color:
+        #98717c;
 
-    font-size: 13px;
+    font-size:
+        13px;
 
-    margin-top: 7px;
+    margin-top:
+        7px;
 }
 
 
@@ -723,7 +869,8 @@ textarea {
     color:
         #991033;
 
-    font-weight: 700;
+    font-weight:
+        700;
 
     animation:
         fadeUp .5s ease both;
@@ -751,7 +898,8 @@ textarea {
     color:
         #18743a;
 
-    font-weight: 700;
+    font-weight:
+        700;
 
     animation:
         fadeUp .5s ease both;
@@ -764,27 +912,35 @@ textarea {
 
 .btn {
 
-    display: inline-block;
+    display:
+        inline-block;
 
     border:
         1px solid transparent;
 
-    border-radius: 30px;
+    border-radius:
+        30px;
 
     padding:
         11px 20px;
 
-    text-decoration: none;
+    text-decoration:
+        none;
 
-    font-family: inherit;
+    font-family:
+        inherit;
 
-    font-weight: 700;
+    font-weight:
+        700;
 
-    cursor: pointer;
+    cursor:
+        pointer;
 
-    text-align: center;
+    text-align:
+        center;
 
-    transition: .3s ease;
+    transition:
+        .3s ease;
 }
 
 
@@ -796,30 +952,6 @@ textarea {
     box-shadow:
         0 7px 16px
         rgba(193,18,63,.18);
-}
-
-
-/* =========================
-   HOME BUTTON
-========================= */
-
-.btn-home {
-
-    background: white;
-
-    color: #8e1637;
-
-    border-color:
-        #f3c4d1;
-}
-
-
-.btn-home:hover {
-
-    background:
-        #c1123f;
-
-    color: white;
 }
 
 
@@ -845,7 +977,8 @@ textarea {
     background:
         #c1123f;
 
-    color: white;
+    color:
+        white;
 }
 
 
@@ -858,9 +991,11 @@ textarea {
     background:
         #f52b7c;
 
-    color: white;
+    color:
+        white;
 
-    border: none;
+    border:
+        none;
 
     padding:
         12px 30px;
@@ -872,7 +1007,8 @@ textarea {
     background:
         #d91d67;
 
-    color: white;
+    color:
+        white;
 }
 
 
@@ -882,15 +1018,20 @@ textarea {
 
 .form-buttons {
 
-    display: flex;
+    display:
+        flex;
 
-    gap: 12px;
+    gap:
+        12px;
 
-    justify-content: center;
+    justify-content:
+        center;
 
-    flex-wrap: wrap;
+    flex-wrap:
+        wrap;
 
-    margin-top: 30px;
+    margin-top:
+        30px;
 }
 
 
@@ -902,7 +1043,8 @@ textarea {
 
     from {
 
-        opacity: 0;
+        opacity:
+            0;
 
         transform:
             translateY(25px);
@@ -910,7 +1052,8 @@ textarea {
 
     to {
 
-        opacity: 1;
+        opacity:
+            1;
 
         transform:
             translateY(0);
@@ -970,6 +1113,38 @@ textarea {
 }
 
 
+@media (max-width: 600px) {
+
+    .toolbar {
+
+        flex-direction:
+            column;
+
+        align-items:
+            stretch;
+
+        text-align:
+            center;
+
+        border-radius:
+            22px;
+    }
+
+    .toolbar-actions {
+
+        justify-content:
+            center;
+    }
+
+    .toolbar-actions .btn-cancel {
+
+        width:
+            100%;
+    }
+
+}
+
+
 @media (max-width: 550px) {
 
     .container {
@@ -1011,7 +1186,8 @@ textarea {
         flex-direction:
             column;
 
-        gap: 0;
+        gap:
+            0;
     }
 
 
@@ -1101,6 +1277,8 @@ textarea {
 <main class="container">
 
 
+
+
     <!-- =========================
          PAGE HEADING
     ========================== -->
@@ -1136,6 +1314,50 @@ textarea {
 
     <?php endif; ?>
 
+    <!-- =========================
+         FORM CARD
+    ========================== -->
+
+    <main class="container">
+
+
+    <!-- =========================
+         TOOLBAR
+    ========================== -->
+
+    <div class="toolbar">
+
+        <h2>
+            ข้อมูลเครื่องดื่ม
+        </h2>
+
+        <div class="toolbar-actions">
+
+            <a
+                href="drink.php"
+                class="btn btn-cancel"
+            >
+                ← กลับรายการเครื่องดื่ม
+            </a>
+
+        </div>
+
+    </div>
+
+
+
+    <!-- =========================
+         ERROR
+    ========================== -->
+
+    <?php if ($error !== ''): ?>
+
+        <div class="error">
+            <?= h($error) ?>
+        </div>
+
+    <?php endif; ?>
+
 
     <!-- =========================
          SUCCESS
@@ -1144,9 +1366,7 @@ textarea {
     <?php if ($message !== ''): ?>
 
         <div class="success">
-
             <?= h($message) ?>
-
         </div>
 
     <?php endif; ?>
@@ -1157,7 +1377,6 @@ textarea {
     ========================== -->
 
     <div class="form-card">
-
 
         <form method="POST" action="">
 
@@ -1226,7 +1445,6 @@ textarea {
 
             <div class="form-row">
 
-
                 <div class="form-group">
 
                     <label for="price">
@@ -1265,7 +1483,6 @@ textarea {
                     >
 
                 </div>
-
 
             </div>
 
@@ -1340,7 +1557,6 @@ textarea {
                     ยกเลิก
                 </a>
 
-
                 <button
                     type="submit"
                     class="btn btn-submit"
@@ -1353,9 +1569,7 @@ textarea {
 
         </form>
 
-
     </div>
-
 
 </main>
 

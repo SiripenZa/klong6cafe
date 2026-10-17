@@ -70,8 +70,7 @@ if ($stmt) {
 
 <title><?= h($pageTitle) ?> | KLONG 6 CAFE</title>
 
-<link href="https://fonts.googleapis.com/css2?family=Mali:wght@400;500;600;700&display=swap"
-      rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Mali:wght@400;500;600;700&display=swap" rel="stylesheet">
 
 <style>
 
@@ -567,12 +566,10 @@ tbody tr:hover {
         opacity: 0;
         transform: translateY(25px);
     }
-
     to {
         opacity: 1;
         transform: translateY(0);
     }
-
 }
 
 @keyframes floating {
@@ -581,11 +578,9 @@ tbody tr:hover {
     100% {
         transform: translateY(0);
     }
-
     50% {
         transform: translateY(-10px);
     }
-
 }
 
 /* =========================
@@ -605,7 +600,6 @@ tbody tr:hover {
         justify-content: center;
         overflow-x: auto;
     }
-
 }
 
 @media (max-width: 700px) {
@@ -625,7 +619,6 @@ tbody tr:hover {
     .toolbar-actions .btn {
         flex: 1;
     }
-
 }
 
 @media (max-width: 550px) {
@@ -659,7 +652,6 @@ tbody tr:hover {
 </head>
 
 <body>
-
 <!-- ของตกแต่ง -->
 <div class="decor one">🍓</div>
 <div class="decor two">🍰</div>
@@ -668,11 +660,9 @@ tbody tr:hover {
 <!-- =========================
      HEADER
 ========================= -->
-
 <header>
 
     <div class="brand-area">
-
         <div class="brand">
             🍒 Klong 6 Cafe
         </div>
@@ -680,10 +670,7 @@ tbody tr:hover {
         <div class="subtitle">
             ADMIN PANEL
         </div>
-
     </div>
-
-
 
     <a href="logout.php" class="logout-btn">
         ออกจากระบบ
@@ -696,14 +683,9 @@ tbody tr:hover {
 ========================= -->
 
 <main class="container">
-
-  
-
-
     <!-- TOOLBAR -->
 
     <div class="toolbar">
-
         <h2>
             รายการเค้กทั้งหมด 🍰
         </h2>
@@ -717,44 +699,30 @@ tbody tr:hover {
             <a href="add_cake.php" class="btn btn-add">
                 + เพิ่มเค้ก
             </a>
-
         </div>
-
     </div>
 
-
     <!-- SUCCESS -->
-
     <?php if (isset($_GET['success']) && $_GET['success'] === 'added'): ?>
-
         <div class="success">
             🍰 เพิ่มเค้กเรียบร้อยแล้ว
         </div>
 
     <?php endif; ?>
-
-
     <!-- ERROR -->
-
     <?php if ($errorMessage !== ''): ?>
-
         <div class="error">
             <?= h($errorMessage) ?>
         </div>
 
     <?php endif; ?>
 
-
     <!-- TABLE -->
 
     <div class="table-wrap">
-
         <table>
-
             <thead>
-
                 <tr>
-
                     <th>
                         รหัสเค้ก
                     </th>
@@ -782,47 +750,32 @@ tbody tr:hover {
                     <th>
                         จัดการ
                     </th>
-
                 </tr>
-
             </thead>
-
 
             <tbody>
 
             <?php if ($result && $result->num_rows > 0): ?>
-
                 <?php while ($product = $result->fetch_assoc()): ?>
-
                     <tr>
-
                         <!-- ID -->
-
                         <td>
-
                             <strong>
                                 #<?= h($product['cake_id']) ?>
                             </strong>
 
                         </td>
-
-
                         <!-- IMAGE -->
-
                         <td>
-
                             <img
                                 class="product-image"
                                 src="<?= h(productImage($product['image'] ?? '')) ?>"
                                 alt="<?= h($product['cake_name']) ?>"
                                 onerror="this.onerror=null;this.src='../cake.png';"
                             >
-
                         </td>
 
-
                         <!-- NAME -->
-
                         <td>
 
                             <div class="product-name">
@@ -830,81 +783,54 @@ tbody tr:hover {
                             </div>
 
                             <?php if (!empty($product['description'])): ?>
-
                                 <div class="product-description">
-
                                     <?= h($product['description']) ?>
-
                                 </div>
-
                             <?php endif; ?>
-
                         </td>
 
-
                         <!-- PRICE -->
-
                         <td>
-
                             <span class="price">
-
                                 <?= number_format(
                                     (float)$product['price'],
                                     2
                                 ) ?>
-
                                 บาท
-
                             </span>
-
                         </td>
 
-
                         <!-- STOCK -->
-
                         <td>
 
                             <?= (int)$product['stock'] ?>
-
                             ชิ้น
-
                         </td>
 
-
                         <!-- STATUS -->
-
                         <td>
 
                             <?php if ($product['status'] === 'available'): ?>
-
                                 <span class="status">
                                     พร้อมขาย
                                 </span>
 
                             <?php else: ?>
-
                                 <span class="status status-unavailable">
                                     ไม่พร้อมขาย
                                 </span>
-
                             <?php endif; ?>
-
                         </td>
 
-
                         <!-- ACTIONS -->
-
                         <td>
-
                             <div class="actions">
-
                                 <a
                                     class="btn btn-edit"
                                     href="edit_cake.php?id=<?= urlencode($product['cake_id']) ?>"
                                 >
                                     แก้ไข
                                 </a>
-
 
                                 <form
                                     action="delete_cake.php"
@@ -924,60 +850,39 @@ tbody tr:hover {
                                     >
                                         ลบ
                                     </button>
-
                                 </form>
-
                             </div>
-
                         </td>
-
                     </tr>
 
                 <?php endwhile; ?>
+                    <?php elseif ($errorMessage === ''): ?>
+                        <tr>
+                            <td colspan="7" class="empty">
+                                <div class="empty-icon">
+                                    🍰
+                                </div>
 
+                                <strong>
+                                    ยังไม่มีเค้กในรายการ
+                                </strong>
 
-            <?php elseif ($errorMessage === ''): ?>
-
-                <tr>
-
-                    <td colspan="7" class="empty">
-
-                        <div class="empty-icon">
-                            🍰
-                        </div>
-
-                        <strong>
-                            ยังไม่มีเค้กในรายการ
-                        </strong>
-
-                        <p>
-                            ลองเพิ่มเค้กใหม่เข้าสู่ระบบ
-                        </p>
-
-                    </td>
-
-                </tr>
-
-            <?php endif; ?>
-
+                                <p>
+                                    ลองเพิ่มเค้กใหม่เข้าสู่ระบบ
+                                </p>
+                            </td>
+                        </tr>
+                    <?php endif; ?>
             </tbody>
-
         </table>
-
     </div>
-
 </main>
-
-
 </body>
 </html>
 
 <?php
-
 if ($stmt) {
     $stmt->close();
 }
-
 $conn->close();
-
 ?>

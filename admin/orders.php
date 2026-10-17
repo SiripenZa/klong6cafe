@@ -1,4 +1,3 @@
-
 <?php
 session_start();
 require_once __DIR__ . "/../conn.php";
@@ -185,8 +184,8 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
         $conn->commit();
 
-        header("Location: orders.php?updated=1");
-        exit;
+        header("Location: " . basename($_SERVER["SCRIPT_NAME"]) . "?updated=1");
+exit;
 
     } catch (Throwable $e) {
         try {
@@ -290,7 +289,14 @@ $sql = "
     )
     AND (? = '' OR o.status = ?)
     AND (? = '' OR o.payment_status = ?)
-    ORDER BY o.order_date DESC, o.order_id DESC
+        ORDER BY
+        (o.status IN ('completed', 'cancelled')) ASC,
+        CASE
+            WHEN o.status IN ('completed', 'cancelled') THEN NULL
+            ELSE TIMESTAMP(o.pickup_date, o.pickup_time)
+        END ASC,
+        TIMESTAMP(o.pickup_date, o.pickup_time) DESC,
+        o.order_id DESC
 ";
 
 $keyword = "%" . $search . "%";
@@ -692,6 +698,10 @@ header:after {
 }
 
 .summary-card {
+    display: block;
+    text-decoration: none;
+    color: inherit;
+    cursor: pointer;
     background: #fff;
     padding: 25px;
     border-radius: 22px;
@@ -843,6 +853,16 @@ tbody tr:last-child td {
     font-size: 12px;
     font-weight: 700;
     white-space: nowrap;
+}
+
+.badge-verified {
+    background: #dcf7e5;
+    color: #18743a;
+}
+
+.badge-pending_review {
+    background: #ffe0e6;
+    color: #c1123f;
 }
 
 .items-list {
@@ -1049,6 +1069,10 @@ tbody tr:last-child td {
             <a href="dashboard.php" class="btn btn-home">
                 ← กลับหน้าแอดมิน
             </a>
+            
+            <a href="order_history.php" class="btn btn-light">
+            🕘 ประวัติการสั่งซื้อ
+            </a>
         </div>
     </div>
 
@@ -1072,34 +1096,36 @@ tbody tr:last-child td {
         </div>
     <?php endif; ?>
 
-    <!-- สรุปยอดออเดอร์ -->
-    <section class="summary-grid">
 
-        <div class="summary-card">
-            <div class="icon">🧾</div>
-            <div class="label">ออเดอร์ทั้งหมด</div>
-            <div class="number"><?= $summary["all"] ?></div>
-        </div>
+<!-- สรุปยอดออเดอร์ -->
+<section class="summary-grid">
 
-        <div class="summary-card">
-            <div class="icon">⏳</div>
-            <div class="label">รอดำเนินการ</div>
-            <div class="number"><?= $summary["pending"] ?></div>
-        </div>
+    <a href="orders.php#orders-list" class="summary-card">
+        <div class="icon">🧾</div>
+        <div class="label">ออเดอร์ทั้งหมด</div>
+        <div class="number"><?= $summary["all"] ?></div>
+    </a>
 
-        <div class="summary-card">
-            <div class="icon">💳</div>
-            <div class="label">สลิปรอตรวจสอบ</div>
-            <div class="number"><?= $summary["slips"] ?></div>
-        </div>
+    <a href="pending_orders.php" class="summary-card">
+        <div class="icon">⏳</div>
+        <div class="label">รอดำเนินการ</div>
+        <div class="number"><?= $summary["pending"] ?></div>
+    </a>
 
-        <div class="summary-card">
-            <div class="icon">🎁</div>
-            <div class="label">พร้อมรับสินค้า</div>
-            <div class="number"><?= $summary["ready"] ?></div>
-        </div>
+    <a href="slip_review.php" class="summary-card">
+        <div class="icon">💳</div>
+        <div class="label">สลิปรอตรวจสอบ</div>
+        <div class="number"><?= $summary["slips"] ?></div>
+    </a>
 
-    </section>
+    <a href="ready_orders.php" class="summary-card">
+        <div class="icon">🎁</div>
+        <div class="label">พร้อมรับสินค้า</div>
+        <div class="number"><?= $summary["ready"] ?></div>
+    </a>
+
+</section>
+
 
     <!-- ค้นหาและกรอง -->
     <section class="panel">
@@ -1170,7 +1196,7 @@ tbody tr:last-child td {
     </section>
 
     <!-- ตารางคำสั่งซื้อ -->
-    <section class="panel">
+<section class="panel" id="orders-list">
 
         <h2>รายการคำสั่งซื้อทั้งหมด</h2>
 
@@ -1188,8 +1214,8 @@ tbody tr:last-child td {
                         <th>รายการสินค้า</th>
                         <th>ข้อมูลรับสินค้า</th>
                         <th>ยอดรวม / มัดจำ / คงเหลือ</th>
-                        <th>สลิปและการชำระเงิน</th>
-                        <th>จัดการสถานะ</th>
+                        <th>การชำระเงิน</th>
+                        <th>จัดการ</th>
                     </tr>
                 </thead>
 
@@ -1378,235 +1404,25 @@ tbody tr:last-child td {
                                 </div>
                             </td>
 
-                            <!-- สลิปและการชำระเงิน -->
-                            <td>
+<!-- การชำระเงิน -->
+<td>
+    <span class="badge badge-<?= h($order["payment_status"] ?? "") ?>">
+        <?= h(
+            $paymentStatuses[$order["payment_status"] ?? ""]
+            ?? ($order["payment_status"] ?? "ไม่ระบุ")
+        ) ?>
+    </span>
+    <div class="muted" style="margin-top:8px">
+        <?= $slip !== "" ? "📎 มีสลิปแนบ" : "ยังไม่มีสลิป" ?>
+    </div>
+</td>
 
-                                <?php if ($slip !== ""): ?>
-
-                                    <?php if (
-                                        in_array(
-                                            $extension,
-                                            ["jpg", "jpeg", "png", "webp"],
-                                            true
-                                        )
-                                    ): ?>
-
-                                        <a
-                                            href="<?= h($slipUrl) ?>"
-                                            target="_blank"
-                                            rel="noopener noreferrer"
-                                        >
-                                            <img
-                                                class="slip-preview"
-                                                src="<?= h($slipUrl) ?>"
-                                                alt="สลิปออเดอร์ <?= h($id) ?>"
-                                                loading="lazy"
-                                            >
-                                        </a>
-
-                                    <?php endif; ?>
-
-                                    <a
-                                        href="<?= h($slipUrl) ?>"
-                                        target="_blank"
-                                        rel="noopener noreferrer"
-                                        class="muted"
-                                    >
-                                        เปิดดูสลิป
-                                    </a>
-
-                                    <div class="review-actions">
-
-                                        <?php if (
-                                            in_array(
-                                                $order["payment_status"] ?? "",
-                                                ["pending_review", "rejected"],
-                                                true
-                                            )
-                                        ): ?>
-
-                                            <form
-                                                method="POST"
-                                                onsubmit="return confirm('ยืนยันการอนุมัติสลิปนี้หรือไม่?');"
-                                            >
-                                                <input
-                                                    type="hidden"
-                                                    name="csrf_token"
-                                                    value="<?= h($csrfToken) ?>"
-                                                >
-
-                                                <input
-                                                    type="hidden"
-                                                    name="order_id"
-                                                    value="<?= h($id) ?>"
-                                                >
-
-                                                <input
-                                                    type="hidden"
-                                                    name="action"
-                                                    value="approve_slip"
-                                                >
-
-                                                <input
-                                                    type="hidden"
-                                                    name="confirm_action"
-                                                    value="1"
-                                                >
-
-                                                <button
-                                                    type="submit"
-                                                    class="btn btn-green"
-                                                >
-                                                    ✓ อนุมัติสลิป
-                                                </button>
-                                            </form>
-
-                                        <?php endif; ?>
-
-                                        <?php if (
-                                            in_array(
-                                                $order["payment_status"] ?? "",
-                                                ["pending_review", "verified"],
-                                                true
-                                            )
-                                        ): ?>
-
-                                            <form
-                                                method="POST"
-                                                onsubmit="return confirm('ยืนยันการปฏิเสธสลิปนี้หรือไม่?');"
-                                            >
-                                                <input
-                                                    type="hidden"
-                                                    name="csrf_token"
-                                                    value="<?= h($csrfToken) ?>"
-                                                >
-
-                                                <input
-                                                    type="hidden"
-                                                    name="order_id"
-                                                    value="<?= h($id) ?>"
-                                                >
-
-                                                <input
-                                                    type="hidden"
-                                                    name="action"
-                                                    value="reject_slip"
-                                                >
-
-                                                <input
-                                                    type="hidden"
-                                                    name="confirm_action"
-                                                    value="1"
-                                                >
-
-                                                <button
-                                                    type="submit"
-                                                    class="btn btn-red"
-                                                >
-                                                    ✕ ปฏิเสธสลิป
-                                                </button>
-                                            </form>
-
-                                        <?php endif; ?>
-
-                                    </div>
-
-                                <?php else: ?>
-
-                                    <span class="muted">ยังไม่มีสลิป</span>
-
-                                <?php endif; ?>
-
-                                <div style="margin-top:10px">
-                                    <span class="badge">
-                                        <?= h(
-                                            $paymentStatuses[$order["payment_status"] ?? ""]
-                                            ?? ($order["payment_status"] ?? "ไม่ระบุ")
-                                        ) ?>
-                                    </span>
-                                </div>
-
-                            </td>
-
-                            <!-- จัดการสถานะ -->
-                            <td>
-
-                                <form method="POST" class="status-form">
-
-                                    <input
-                                        type="hidden"
-                                        name="csrf_token"
-                                        value="<?= h($csrfToken) ?>"
-                                    >
-
-                                    <input
-                                        type="hidden"
-                                        name="order_id"
-                                        value="<?= h($id) ?>"
-                                    >
-
-                                    <input
-                                        type="hidden"
-                                        name="action"
-                                        value="update_status"
-                                    >
-
-                                    <label for="status-<?= h($id) ?>">
-                                        สถานะออเดอร์
-                                    </label>
-
-                                    <select
-                                        id="status-<?= h($id) ?>"
-                                        name="status"
-                                        required
-                                    >
-                                        <?php foreach ($orderStatuses as $value => $label): ?>
-
-                                            <option
-                                                value="<?= h($value) ?>"
-                                                <?= ($order["status"] ?? "") === $value
-                                                    ? "selected"
-                                                    : "" ?>
-                                            >
-                                                <?= h($label) ?>
-                                            </option>
-
-                                        <?php endforeach; ?>
-                                    </select>
-
-                                    <label for="payment-<?= h($id) ?>">
-                                        สถานะชำระเงิน
-                                    </label>
-
-                                    <select
-                                        id="payment-<?= h($id) ?>"
-                                        name="payment_status"
-                                        required
-                                    >
-                                        <?php foreach ($paymentStatuses as $value => $label): ?>
-
-                                            <option
-                                                value="<?= h($value) ?>"
-                                                <?= ($order["payment_status"] ?? "") === $value
-                                                    ? "selected"
-                                                    : "" ?>
-                                            >
-                                                <?= h($label) ?>
-                                            </option>
-
-                                        <?php endforeach; ?>
-                                    </select>
-
-                                    <button
-                                        type="submit"
-                                        class="btn btn-pink"
-                                    >
-                                        บันทึกสถานะ
-                                    </button>
-
-                                </form>
-
-                            </td>
+<!-- ปุ่มจัดการรายละเอียดสินค้า -->
+<td>
+    <a href="order_detail.php?id=<?= urlencode($id) ?>" class="btn btn-pink">
+        🔍 จัดการรายละเอียดสินค้า
+    </a>
+</td>
 
                         </tr>
 

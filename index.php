@@ -1138,7 +1138,7 @@ $menus = [
     'index.php'    => '🏠 หน้าหลัก',
     'cake.php'     => '🍰 เค้ก',
     'drink.php'    => '🥤 เครื่องดื่ม',
-    'order.php'    => '🧾 Order',
+    'order.php'    => '🧾 คำสั่งซื้อ',
     'my_orders.php'=> '📋 ประวัติการสั่งซื้อ',
     'cart.php'     => '🛒 ตะกร้า'
 ];

@@ -365,138 +365,79 @@ th {
     <div class="table-wrap">
 
         <table>
-
             <thead>
-
                 <tr>
-
                     <th>Customer ID</th>
-
                     <th>ชื่อ</th>
-
                     <th>นามสกุล</th>
-
                     <th>อีเมล</th>
-
                     <th>เบอร์โทร</th>
-
                     <th>ที่อยู่</th>
-
                     <th>สมัครเมื่อ</th>
-
                     <th>สถานะ</th>
-
                     <th>จัดการ</th>
-
                 </tr>
-
             </thead>
 
-
             <tbody>
-
             <?php if ($result && $result->num_rows > 0): ?>
-
                 <?php while ($customer = $result->fetch_assoc()): ?>
-
                     <tr>
-
-
                         <!-- Customer ID -->
-
                         <td>
-
                             <strong>
                                 <?= h($customer['customer_id']) ?>
                             </strong>
-
                         </td>
-
 
                         <!-- ชื่อ -->
-
                         <td>
-
                             <?= h($customer['firstname']) ?>
-
                         </td>
-
 
                         <!-- นามสกุล -->
-
                         <td>
-
                             <?= h($customer['lastname']) ?>
-
                         </td>
-
 
                         <!-- อีเมล -->
-
                         <td>
-
                             <?= h($customer['email']) ?>
-
                         </td>
-
 
                         <!-- เบอร์โทร -->
-
                         <td>
-
                             <?= h($customer['telephone']) ?>
-
                         </td>
-
 
                         <!-- ที่อยู่ -->
-
                         <td style="color:#777;">
-
                             <?= h($customer['address']) ?>
-
                         </td>
-
 
                         <!-- วันที่สมัคร -->
-
                         <td>
-
                             <?= h($customer['created_at']) ?>
-
                         </td>
 
-
                         <!-- สถานะ -->
-
                         <td>
-
                             <?php if ($customer['status'] === 'suspended'): ?>
-
                                 <span class="status status-suspended">
                                     🔴 ระงับการใช้งาน
                                 </span>
-
                             <?php else: ?>
-
                                 <span class="status">
                                     🟢 ใช้งานปกติ
                                 </span>
-
                             <?php endif; ?>
-
                         </td>
 
-
                         <!-- จัดการ -->
-
                         <td>
-
                             <div class="actions">
 
-
                                 <!-- แก้ไข -->
-
                                 <a
                                     href="edit_customer.php?id=<?= urlencode($customer['customer_id']) ?>"
                                     class="btn btn-edit"
@@ -504,11 +445,9 @@ th {
                                     แก้ไข
                                 </a>
 
-
                                 <?php if ($customer['status'] === 'suspended'): ?>
 
                                     <!-- เปิดใช้งาน -->
-
                                     <a
                                         href="customers.php?action=activate&id=<?= urlencode($customer['customer_id']) ?>"
                                         class="btn btn-activate"
@@ -520,7 +459,6 @@ th {
                                 <?php else: ?>
 
                                     <!-- ระงับ -->
-
                                     <a
                                         href="customers.php?action=suspend&id=<?= urlencode($customer['customer_id']) ?>"
                                         class="btn btn-suspend"
@@ -528,50 +466,30 @@ th {
                                     >
                                         🔴 ระงับ
                                     </a>
-
                                 <?php endif; ?>
-
-
                             </div>
-
                         </td>
-
                     </tr>
-
                 <?php endwhile; ?>
+                    <?php else: ?>
+                        <tr>
+                            <td colspan="9" class="empty">
+                                <div style="font-size:45px;">
+                                    👥
+                                </div>
 
+                                <strong>
+                                    ยังไม่มีสมาชิกในระบบ
+                                </strong>
 
-            <?php else: ?>
-
-                <tr>
-
-                    <td colspan="9" class="empty">
-
-                        <div style="font-size:45px;">
-                            👥
-                        </div>
-
-                        <strong>
-                            ยังไม่มีสมาชิกในระบบ
-                        </strong>
-
-                    </td>
-
-                </tr>
-
-            <?php endif; ?>
-
+                            </td>
+                            </tr>
+                <?php endif; ?>
             </tbody>
-
         </table>
-
     </div>
-
 </main>
-
-
 </body>
-
 </html>
 
 <?php
