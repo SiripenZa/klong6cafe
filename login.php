@@ -34,7 +34,8 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                 } else {
                     session_regenerate_id(true);
 
-                    $_SESSION["customer_id"] = $customer["customer_id"];
+                    $customer_id = $customer["customer_id"];
+                    $_SESSION["customer_id"] = $customer_id;
                     $_SESSION["customer_firstname"] = $customer["firstname"];
                     $_SESSION["customer_lastname"] = $customer["lastname"];
                     $_SESSION["customer_email"] = $customer["email"];

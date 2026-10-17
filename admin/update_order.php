@@ -1,4 +1,3 @@
-```php
 <?php
 session_start();
 require_once '../conn.php';
@@ -61,4 +60,3 @@ echo 'ไม่สามารถอัปเดตออเดอร์ได�
 $stmt->close();
 $conn->close();
 ?>
-```

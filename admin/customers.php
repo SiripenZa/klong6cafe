@@ -347,7 +347,7 @@ th {
 
     <div class="toolbar">
 
-        <h2>👥 จัดการลูกค้า</h2>
+        <h2>จัดการลูกค้า 👥</h2>
 
         <div class="toolbar-actions">
 

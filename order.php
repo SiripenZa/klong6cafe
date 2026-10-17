@@ -1,11 +1,33 @@
 
 <?php
 session_start();
+
 require_once 'conn.php';
 
 ini_set('display_errors', '1');
 ini_set('display_startup_errors', '1');
 error_reporting(E_ALL);
+
+if (!$isLoggedIn) {
+    header('Location: login.php');
+    exit;
+}
+
+if (empty($_GET['order_id']) && empty($_SESSION['cart'])) {
+    header('Location: cart.php');
+    exit;
+}
+
+// สำคัญ: customer_id เป็น VARCHAR เช่น U001, U002
+$customer_id = (string)$_SESSION['customer_id'];
+
+$error = '';
+$items = [];
+$total = 0;
+$deposit = 0;
+$balance = 0;
+$order = null;
+$receiptItems = [];
 
 // ========================================
 // 1. ข้อมูลพื้นฐาน
@@ -41,7 +63,7 @@ if (empty($_GET['order_id']) && empty($_SESSION['cart'])) {
     exit;
 }
 
-$customer_id = (int)$_SESSION['customer_id'];
+$customer_id = (string)$_SESSION['customer_id'];
 $error = '';
 $items = [];
 $total = 0;
@@ -222,14 +244,15 @@ if (
         $pickup_date < date('Y-m-d')
     ) {
         $error = 'กรุณาเลือกวันที่รับสินค้าที่ถูกต้อง';
-    } elseif (
+      } elseif (
         !preg_match('/^\d{2}:\d{2}$/', $pickup_time) ||
         !($timeObject = DateTime::createFromFormat('!H:i', $pickup_time)) ||
         $timeObject->format('H:i') !== $pickup_time ||
-        $pickup_time < '10:00' ||
-        $pickup_time > '16:00'
+         $pickup_time < '09:00' ||
+        $pickup_time > '16:00' ||
+        !in_array($timeObject->format('i'), ['00', '30'], true)
     ) {
-        $error = 'กรุณาเลือกเวลารับสินค้าในช่วง 10:00–16:00 น.';
+        $error = 'กรุณาเลือกเวลารับสินค้าในช่วง 09:00–16:00 น.'; // ปรับข้อความแจ้งเตือน
     } elseif (
         !$file ||
         $file['error'] !== UPLOAD_ERR_OK
@@ -371,20 +394,20 @@ if (
             }
 
             $stmt->bind_param(
-                'sisssdddssss',
-                $order_id,
-                $customer_id,
-                $orderDate,
-                $pickup_date,
-                $pickupTimeSql,
-                $total,
-                $deposit,
-                $balance,
-                $relativePath,
-                $paymentStatus,
-                $status,
-                $note
-            );
+    'sssssdddssss',
+    $order_id,
+    $customer_id,
+    $orderDate,
+    $pickup_date,
+    $pickupTimeSql,
+    $total,
+    $deposit,
+    $balance,
+    $relativePath,
+    $paymentStatus,
+    $status,
+    $note
+);
 
             $stmt->execute();
             $stmt->close();
@@ -483,7 +506,7 @@ if (!empty($_GET['order_id'])) {
     $stmt = $conn->prepare($sql);
 
     if ($stmt) {
-        $stmt->bind_param('si', $view_id, $customer_id);
+        $stmt->bind_param('ss', $view_id, $customer_id);
         $stmt->execute();
 
         $result = $stmt->get_result();
@@ -583,7 +606,7 @@ foreach ($_SESSION['cart'] as $cartItem) {
                 url('pink-3d-bg.png') center center / cover fixed no-repeat;
 
             background-color: #fff4f8;
-        }}
+        }
 
         a {
             color: inherit;
@@ -848,7 +871,7 @@ foreach ($_SESSION['cart'] as $cartItem) {
             color: var(--text);
         }
 
-        input {
+        input,select {
             display: block;
             width: 100%;
             padding: 12px 14px;
@@ -862,7 +885,7 @@ foreach ($_SESSION['cart'] as $cartItem) {
             transition: border-color .2s, box-shadow .2s;
         }
 
-        input:focus {
+        input:focus,select:focus {
             border-color: var(--red);
             box-shadow: 0 0 0 3px rgba(237,38,116,.10);
         }
@@ -1322,19 +1345,19 @@ foreach ($_SESSION['cart'] as $cartItem) {
                         >
                     </div>
 
-                    <div class="field">
-                        <label for="pickup_time">เวลารับสินค้า</label>
-                        <input
-                            type="time"
-                            id="pickup_time"
-                            name="pickup_time"
-                            min="10:00"
-                            max="16:00"
-                            required
-                        >
-                        <p class="small">รับสินค้าได้ตั้งแต่ 10:00–16:00 น.</p>
-                    </div>
-                </div>
+<div class="field">
+    <label for="pickup_time">เวลารับสินค้า</label>
+    <select id="pickup_time" name="pickup_time" required>
+        <option value="">-- เลือกเวลา --</option>
+        <?php
+        for ($t = strtotime('09:00'); $t <= strtotime('16:00'); $t += 30 * 60) {
+            $val = date('H:i', $t);
+            echo '<option value="' . $val . '">' . $val . ' น.</option>';
+        }
+        ?>
+    </select>
+    <p class="small">รับสินค้าได้ตั้งแต่ 09:00–16:00 น. </p>
+</div>
 
                 <div class="field">
                     <label for="slip">แนบสลิปโอนเงินมัดจำ</label>
