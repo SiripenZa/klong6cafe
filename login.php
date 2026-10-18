@@ -253,8 +253,6 @@ html, body {
 <div class="page-scene">
     <section class="login-wrapper">
         <div class="login-content">
-
-            <div class="welcome">❤ WELCOME BACK ❤</div>
             <h1 class="login-title">เข้าสู่ระบบ</h1>
 
             <?php if ($error !== ""): ?>

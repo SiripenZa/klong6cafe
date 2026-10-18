@@ -180,10 +180,13 @@ body{
     margin:0;
     font-family:'Mali',sans-serif;
     color:var(--text);
-    background:#fff8fb;
-    background-image:
-        radial-gradient(ellipse at 10% 35%,#ffd9e7 0,transparent 28%),
-        radial-gradient(ellipse at 90% 72%,#ffe2ed 0,transparent 25%);
+    background:
+        linear-gradient(
+            rgba(255,248,251,.30),
+            rgba(255,244,248,.48)
+        ),
+        url('pink-3d-bg.png') center center / cover fixed no-repeat;
+    background-color:#fff4f8;
 }
 
 a{ color:inherit; text-decoration:none; }
@@ -367,11 +370,7 @@ button,input{ font-family:inherit; }
 }
 
 .page-heading{
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-    flex-wrap:wrap;
-    gap:15px;
+    text-align:center;
     margin-bottom:20px;
 }
 .page-heading h2{
@@ -562,15 +561,15 @@ button,input{ font-family:inherit; }
 
 /* Footer */
 .orders-footer{
-    background:linear-gradient(100deg,#ffe3ee,#fff5f9,#ffd2e3);
+    background:#451f2b;
     text-align:center;
-    color:#a34b70;
+    color:#fbe8ed;
     padding:22px 12px;
     font-size:13px;
 }
 .orders-footer strong{
     font-family:'Pacifico','Mali',cursive;
-    color:#d51f65;
+    color:#fff;
     font-size:23px;
 }
 
@@ -726,28 +725,21 @@ input[type="button"], [role="button"], .btn {
   </div>
 </div>
 
-<!-- Hero -->
-<section class="orders-hero" aria-label="Order history welcome">
-    <span class="hero-petal one" aria-hidden="true">✿</span>
-    <span class="hero-petal two" aria-hidden="true">♡</span>
-    <div class="hero-kicker">YOUR SWEET MEMORIES</div>
-    <h1>My <span>Orders ♡</span></h1>
-    <p>ติดตามสถานะคำสั่งซื้อและใบสรุปของคุณได้ที่นี่ 🍓</p>
-</section>
+
 
 <main class="container">
 
     <div class="page-heading">
         <div>
+            <br>
+            <br>
+            <br>
+            <br>
             <h2>ประวัติการสั่งซื้อ 🧁</h2>
             <div class="count">
                 พบ <?= count($orders) ?> รายการ
             </div>
         </div>
-
-        <a href="Home.php" class="btn btn-light">
-            ← กลับหน้าหลัก
-        </a>
     </div>
 
     <form class="search-box" method="GET" action="my_orders.php">

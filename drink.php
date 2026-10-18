@@ -227,7 +227,7 @@ unset(
 <title>Drink Menu | KLONG 6 CAFE</title>
 
 <link
-    href="https://fonts.googleapis.com/css2?family=Mali:wght@400;500;600;700&display=swap"
+    href="https://fonts.googleapis.com/css2?family=Mali:wght@400;500;600;700&family=Pacifico&display=swap"
     rel="stylesheet"
 >
 
@@ -588,21 +588,18 @@ input {
     color: white;
 }
 
-footer {
-    padding: 30px 15px;
+.orders-footer {
     background: #451f2b;
-    color: #fbe8ed;
     text-align: center;
-    font-size: 12px;
+    color: #fbe8ed;
+    padding: 22px 12px;
+    font-size: 13px;
 }
 
-footer strong {
+.orders-footer strong {
+    font-family: 'Pacifico','Mali',cursive;
     color: white;
-    font-size: 16px;
-}
-
-footer p {
-    line-height: 1.9;
+    font-size: 23px;
 }
 
 @media (max-width: 1100px) {
@@ -865,7 +862,7 @@ body {
     gap: 20px;
     background:
         linear-gradient(100deg,#e94a86d9,#ff9fc2b0 52%,#ffc9dcb0),
-        url('รูปร้าน.png') center 48%/cover no-repeat;
+        url('น้ำ.jpg') center 48%/cover no-repeat;
 }
 
 .cake-hero:before {
@@ -1389,38 +1386,240 @@ input[type="button"],
     }
 }
 
-.announcement{display:none}
-.header{position:absolute;top:0;left:0;z-index:10;width:100%;padding:17px 5%;background:linear-gradient(180deg,rgba(0,0,0,.5),transparent);box-shadow:none}
-.header-inner{max-width:1320px;flex-wrap:nowrap}
-.brand{display:flex;align-items:center;gap:10px;color:#fff;text-decoration:none}
-.brand-mark{font-size:29px}
-.brand-name{font-size:clamp(22px,2.5vw,31px);font-weight:700;line-height:1.2;text-shadow:0 2px 10px #000}
-.brand-name small{display:block;margin-top:3px;color:#fff;font-size:10px;letter-spacing:2px}
-.welcome{color:#fff;text-shadow:0 2px 8px #000}
-.account a{display:inline-flex;align-items:center;justify-content:center;min-height:42px;padding:10px 17px;border:1px solid rgba(255,105,160,.9);border-radius:4px;background:rgba(255,182,205,.32);color:#fff;font-size:13px;text-shadow:0 1px 5px rgba(80,20,45,.65);backdrop-filter:blur(8px)}
-.account a[href="register.php"]{background:#ed367f}
-.nav-strip{position:absolute;top:19px;left:50%;z-index:11;width:max-content;max-width:70%;padding:0;transform:translateX(-50%);background:transparent}
-.nav-wrap{position:static;width:fit-content;max-width:100%;margin:0;border:1px solid rgba(255,105,160,.9);border-radius:40px;background:rgba(0,0,0,.22);box-shadow:0 8px 25px rgba(0,0,0,.12);backdrop-filter:blur(8px)}
-.nav-wrap .nav{max-width:1320px;justify-content:center;flex-wrap:nowrap;gap:4px;padding:4px 7px;overflow-x:auto}
-.nav-wrap .nav a{flex:0 0 auto;padding:9px 13px;border-radius:30px;background:transparent;color:#fff;font-size:13px;text-shadow:0 1px 6px rgba(0,0,0,.45)}
-.nav-wrap .nav a:hover,.nav-wrap .nav a.active{background:#ed367f;color:#fff;box-shadow:none}
+.announcement{
+    display:none
+}
+
+.header{
+    position:absolute;
+    top:0;
+    left:0;
+    z-index:10;
+    width:100%;
+    padding:17px 5%;
+    background:linear-gradient(180deg,rgba(0,0,0,.5),transparent);
+    box-shadow:none
+}
+
+.header-inner{
+    max-width:1320px;
+    flex-wrap:nowrap
+}
+
+.brand{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    color:#fff;
+    text-decoration:none
+}
+
+.brand-mark{
+    font-size:29px
+}
+
+.brand-name{
+    font-size:clamp(22px,2.5vw,31px);
+    font-weight:700;
+    line-height:1.2;
+    text-shadow:0 2px 10px #000
+}
+
+.brand-name small{
+    display:block;
+    margin-top:3px;
+    color:#fff;
+    font-size:10px;
+    letter-spacing:2px
+}
+
+.welcome{
+    color:#fff;
+    text-shadow:0 2px 8px #000
+}
+
+.account a{
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+    min-height:42px;
+    padding:10px 17px;
+    border:1px solid rgba(255,105,160,.9);
+    border-radius:4px;
+    background:rgba(255,182,205,.32);
+    color:#fff;
+    font-size:13px;
+    text-shadow:0 1px 5px rgba(80,20,45,.65);
+    backdrop-filter:blur(8px)
+}
+
+.account a[href="register.php"]{
+    background:#ed367f
+}
+
+.nav-strip{
+    position:absolute;
+    top:19px;
+    left:50%;
+    z-index:11;
+    width:max-content;
+    max-width:70%;
+    padding:0;
+    transform:translateX(-50%);
+    background:transparent
+}
+
+.nav-wrap{
+    position:static;
+    width:fit-content;
+    max-width:100%;
+    margin:0;
+    border:1px solid rgba(255,105,160,.9);
+    border-radius:40px;
+    background:rgba(0,0,0,.22);
+    box-shadow:0 8px 25px rgba(0,0,0,.12);
+    backdrop-filter:blur(8px)
+}
+.nav-wrap .nav{
+    max-width:1320px;
+    justify-content:center;
+    flex-wrap:nowrap;
+    gap:4px;
+    padding:4px 7px;
+    overflow-x:auto
+}
+
+.nav-wrap .nav a{
+    flex:0 0 auto;
+    padding:9px 13px;
+    border-radius:30px;
+    background:transparent;
+    color:#fff;
+    font-size:13px;
+    text-shadow:0 1px 6px rgba(0,0,0,.45)
+}
+
+.nav-wrap .nav a:hover,.nav-wrap .nav a.active{
+    background:#ed367f;
+    color:#fff;
+    box-shadow:none
+}
+
 @media (min-width:1001px){.cake-hero{min-height:400px;padding-top:125px}}
 @media (max-width:1000px){
-    .header{position:relative;top:auto;left:auto;padding:12px 4%;background:rgba(0,0,0,.65)}
-    .header-inner{flex-wrap:wrap;justify-content:center}
-    .account{margin-left:auto}
-    .nav-strip{position:sticky;top:0;left:auto;width:100%;max-width:none;transform:none;background:rgba(0,0,0,.78)}
-    .nav-wrap{width:100%;max-width:none;border:0;border-top:1px solid rgba(255,105,160,.9);border-bottom:1px solid rgba(255,105,160,.9);border-radius:0;background:transparent;box-shadow:none}
-    .nav-wrap .nav{justify-content:flex-start;padding:7px 10px}
-    .cake-hero{min-height:315px;padding-top:35px}
+    .header{
+        position:relative;
+        top:auto;
+        left:auto;
+        padding:12px 4%;
+        background:rgba(0,0,0,.65)
+    }
+
+    .header-inner{
+        flex-wrap:wrap;
+        justify-content:center
+    }
+
+    .account{
+        margin-left:auto
+    }
+
+    .nav-strip{
+        position:sticky;
+        top:0;
+        left:auto;
+        width:100%;
+        max-width:none;
+        transform:none;
+        background:rgba(0,0,0,.78)
+    }
+
+    .nav-wrap{
+        width:100%;
+        max-width:none;
+        border:0;
+        border-top:1px solid rgba(255,105,160,.9);
+        border-bottom:1px solid rgba(255,105,160,.9);
+        border-radius:0;
+        background:transparent;
+        box-shadow:none
+    }
+
+    .nav-wrap .nav{
+        justify-content:flex-start;
+        padding:7px 10px
+    }
+
+    .cake-hero{
+        min-height:315px;padding-top:35px
+    }
+
 }
 @media (max-width:600px){
-    .header{padding:14px 5%;background:rgba(0,0,0,.65)}
-    .header-inner{justify-content:center}
-    .brand-name{font-size:19px}
-    .brand-name small{font-size:8px;letter-spacing:1.5px}
-    .account{justify-content:center;margin:0}
-    .nav-wrap .nav a{padding:9px 12px;font-size:12px}
+    .header{
+        padding:14px 5%;
+        background:rgba(0,0,0,.65)
+    }
+
+    .header-inner{
+        justify-content:center
+    }
+
+    .brand-name{
+        font-size:19px
+    }
+
+    .brand-name small{
+        font-size:8px;
+        letter-spacing:1.5px
+    }
+
+    .account{
+        justify-content:center;
+        margin:0
+    }
+
+    .nav-wrap .nav a{
+        padding:9px 12px;
+        font-size:12px
+    }
+    
+}
+
+:root {
+    --cream: #fff0f5;
+}
+
+body {
+    background: var(--cream);
+    background-image: none;
+}
+
+.cake-hero {
+    background: url('น้ำ.jpg') center 58% / cover no-repeat !important;
+    background-position: center calc(58% - var(--scroll-shift, 0px)) !important;
+}
+
+.cake-hero::before {
+    content: none !important;
+}
+
+.cake-hero::after {
+    content: "";
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    z-index: 0;
+    height: 110px;
+    background: linear-gradient(to bottom, rgba(255, 240, 245, 0), var(--cream));
+    pointer-events: none;
+}
+
+.cake-hero-copy,
+.cake-hero-art,
+.cake-petal {
+    z-index: 1;
 }
 </style>
 </head>
@@ -1527,7 +1726,6 @@ input[type="button"],
 
         <div class="hero-buttons">
             <a href="#menu">🥤 เลือกเครื่องดื่มแก้วโปรด ↓</a>
-            <a class="secondary" href="Home.php">กลับหน้าแรก ♡</a>
         </div>
 
     </div>
@@ -1769,20 +1967,11 @@ input[type="button"],
 </section>
 
 <!-- Footer -->
-<footer>
-    <strong>🍒 KLONG 6 CAFE 🍒</strong>
-    <p>Coffee • Cake • Bakery • Happiness</p>
-    <p>ขอบคุณที่แวะมาเติมความสดชื่นกับเรานะคะ ♡</p>
-    <p>© <?= date('Y') ?> KLONG 6 CAFE. All rights reserved.</p>
+<footer class="orders-footer">
+    <strong>♡ Klong 6 Cafe ♡</strong>
+    <div>Good Coffee&nbsp; • &nbsp;Sweet Drinks&nbsp; • &nbsp;Delicious Cake&nbsp; • &nbsp;Happy Time</div>
 </footer>
 
-<footer class="cake-footer">
-    <strong>♡ Klong 6 Cafe ♡</strong>
-    <div>
-        Good Coffee&nbsp; • &nbsp;Fresh Drinks&nbsp; •
-        &nbsp;Delicious Cake&nbsp; • &nbsp;Happy Time
-    </div>
-</footer>
 
 <script>
 // ========================================
@@ -1901,6 +2090,35 @@ document.querySelectorAll('.add-cart-form').forEach(function (form) {
     });
 
 });
+
+const drinkHero = document.querySelector('.cake-hero');
+const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+if (drinkHero && !reduceMotion) {
+    let framePending = false;
+
+    function updateDrinkHeroBackground() {
+        const bounds = drinkHero.getBoundingClientRect();
+        const progress = Math.min(
+            1,
+            Math.max(0, (window.innerHeight - bounds.top) / (window.innerHeight + bounds.height))
+        );
+
+        drinkHero.style.setProperty('--scroll-shift', `${progress * 24}px`);
+        framePending = false;
+    }
+
+    function requestDrinkHeroUpdate() {
+        if (framePending) return;
+
+        framePending = true;
+        window.requestAnimationFrame(updateDrinkHeroBackground);
+    }
+
+    window.addEventListener('scroll', requestDrinkHeroUpdate, { passive: true });
+    window.addEventListener('resize', requestDrinkHeroUpdate);
+    requestDrinkHeroUpdate();
+}
 </script>
 
 </body>

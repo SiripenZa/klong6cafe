@@ -94,28 +94,154 @@ $escape = static fn($value): string => htmlspecialchars((string)($value ?? ''), 
     <title>แก้ไขโปรไฟล์ | Klong 6 Cafe</title>
     <link href="https://fonts.googleapis.com/css2?family=Mali:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
-        :root { --pink: #ed367f; --pink-dark: #c51b62; --pink-soft: #fff0f6; --ink: #632b43; --line: #ffd0e0; }
+        :root {
+            --pink: #ed367f;
+            --pink-dark: #c51b62;
+            --pink-soft: #fff0f6;
+            --ink: #632b43;
+            --line: #ffd0e0; 
+        }
+
         * { box-sizing: border-box; }
-        body { margin: 0; min-height: 100vh; background: linear-gradient(145deg, #fff7fa, #ffe6ef); color: var(--ink); font-family: 'Mali', sans-serif; }
-        .site-header { padding: 18px 5%; background: linear-gradient(120deg, #ff8fb8, #ed367f); color: #fff; }
-        .header-inner { width: min(1180px, 100%); margin: auto; display: flex; align-items: center; justify-content: space-between; gap: 16px; }
-        .brand { color: inherit; font-size: 22px; font-weight: 700; text-decoration: none; }
-        .header-link, .button { display: inline-flex; align-items: center; justify-content: center; min-height: 42px; padding: 9px 16px; border: 1px solid var(--line); border-radius: 6px; background: #fff; color: var(--pink-dark); font: inherit; font-size: 13px; font-weight: 700; text-decoration: none; cursor: pointer; }
-        .page { width: min(760px, 92%); margin: 42px auto; }
-        .edit-card { overflow: hidden; border: 1px solid var(--line); border-radius: 12px; background: rgba(255,255,255,.94); box-shadow: 0 16px 40px rgba(174,45,96,.12); }
-        .card-heading { padding: 24px 28px; border-bottom: 1px solid var(--line); background: var(--pink-soft); }
-        .card-heading h1 { margin: 0; color: var(--pink-dark); font-size: 27px; }
-        .form-body { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; padding: 26px 28px; }
-        .field { display: grid; gap: 6px; }
-        .field-wide { grid-column: 1 / -1; }
-        label { font-size: 13px; font-weight: 600; }
-        input, textarea { width: 100%; padding: 11px 13px; border: 1px solid #edbfd0; border-radius: 6px; background: #fff; color: var(--ink); font: inherit; font-size: 14px; }
-        input:focus, textarea:focus { outline: 2px solid rgba(237,54,127,.2); border-color: var(--pink); }
-        textarea { min-height: 110px; resize: vertical; }
-        .error { margin: 20px 28px 0; padding: 11px 14px; border: 1px solid #ffc4d3; border-radius: 6px; background: #fff0f3; color: #a3194f; font-size: 13px; }
-        .form-actions { display: flex; justify-content: flex-end; gap: 10px; padding: 0 28px 26px; }
-        .button-primary { border-color: var(--pink); background: var(--pink); color: #fff; }
-        .button-primary:hover { background: var(--pink-dark); }
+        body {
+            margin: 0;
+            min-height: 100vh;
+            background: linear-gradient(145deg, #fff7fa, #ffe6ef);
+            color: var(--ink);
+            font-family: 'Mali', sans-serif; 
+        }
+
+        .site-header { 
+            padding: 18px 5%;
+            background: linear-gradient(120deg, #ff8fb8, #ed367f);
+            color: #fff; 
+        }
+
+        .header-inner { 
+            width: min(1180px, 100%);
+            margin: auto;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 16px; 
+        }
+
+        .brand { 
+            color: inherit;
+            font-size: 22px;
+            font-weight: 700;
+            text-decoration: none;
+        }
+
+        .header-link, .button {
+             display: inline-flex;
+             align-items: center;
+             justify-content: center;
+             min-height: 42px;
+             padding: 9px 16px;
+             border: 1px solid var(--line);
+             border-radius: 6px;
+             background: #fff;
+             color: var(--pink-dark);
+             font: inherit;
+             font-size: 13px;
+             font-weight: 700;
+             text-decoration: none;
+             cursor: pointer; 
+            }
+
+        .page { 
+            width: min(760px, 92%);
+            margin: 42px auto;
+        }
+
+        .edit-card { 
+            overflow: hidden; 
+            border: 1px solid var(--line); 
+            border-radius: 12px; 
+            background: rgba(255,255,255,.94); 
+            box-shadow: 0 16px 40px rgba(174,45,96,.12); 
+        }
+
+        .card-heading { 
+            padding: 24px 28px; 
+            border-bottom: 1px solid var(--line); 
+            background: var(--pink-soft); 
+        }
+
+        .card-heading h1 { 
+            margin: 0; color: var(--pink-dark); 
+            font-size: 27px; 
+        }
+
+        .form-body { 
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr)); 
+            gap: 16px; 
+            padding: 26px 28px; 
+        }
+
+        .field { 
+            display: grid; 
+            gap: 6px; 
+        }
+
+        .field-wide { 
+            grid-column: 1 / -1; 
+        }
+
+        label { 
+            font-size: 13px; 
+            font-weight: 600; 
+        }
+
+        input, textarea { 
+            width: 100%; 
+            padding: 11px 13px; 
+            border: 1px solid #edbfd0; 
+            border-radius: 6px; 
+            background: #fff; 
+            color: var(--ink); 
+            font: inherit; font-size: 14px; 
+        }
+
+        input:focus, textarea:focus { 
+            outline: 2px solid rgba(237,54,127,.2); 
+            border-color: var(--pink); 
+        }
+
+        textarea { 
+            min-height: 110px; 
+            resize: vertical; 
+    }
+
+        .error { 
+            margin: 20px 28px 0; 
+            padding: 11px 14px; 
+            border: 1px solid #ffc4d3; 
+            border-radius: 6px; 
+            background: #fff0f3; 
+            color: #a3194f; 
+            font-size: 13px; 
+        }
+
+        .form-actions { 
+            display: flex; 
+            justify-content: flex-end; 
+            gap: 10px; 
+            padding: 0 28px 26px; 
+        }
+
+        .button-primary { 
+            border-color: var(--pink); 
+            background: var(--pink); 
+            color: #fff; 
+        }
+
+        .button-primary:hover { 
+            background: var(--pink-dark); 
+        }
+        
         @media (max-width: 600px) { .site-header { padding: 15px 4%; } .brand { font-size: 18px; } .page { margin: 24px auto; } .card-heading { padding: 20px; } .card-heading h1 { font-size: 22px; } .form-body { grid-template-columns: 1fr; padding: 20px; } .field-wide { grid-column: auto; } .error { margin: 16px 20px 0; } .form-actions { padding: 0 20px 20px; } }
     </style>
 </head>

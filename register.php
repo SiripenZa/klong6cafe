@@ -139,23 +139,13 @@ do {
         body {
             font-family: 'Mali', cursive;
             color: var(--ink);
-            background: var(--pink-pale);
+            background: url('login.png') center / cover no-repeat fixed;
             min-height: 100vh;
-        }
-
-        /* ===== แถบประกาศ ===== */
-        .topbar {
-            background: linear-gradient(90deg, #ff5c8e, #ff8fb1);
-            color: #fff;
-            text-align: center;
-            font-weight: 700;
-            font-size: 14px;
-            padding: 10px 14px;
         }
 
         /* ===== ส่วนหัว ===== */
         .site-header {
-            background: linear-gradient(180deg, #ffb3cc, #ffc9da);
+            background: transparent;
         }
 
         .header-inner {
@@ -233,11 +223,11 @@ do {
         .stage {
             position: relative;
             overflow: hidden;
-            padding: 60px 24px 80px;
-            background:
-                radial-gradient(circle at 8% 15%, rgba(255, 143, 177, .35) 0, transparent 38%),
-                radial-gradient(circle at 92% 85%, rgba(255, 143, 177, .35) 0, transparent 40%),
-                linear-gradient(180deg, #ffdbe7 0%, var(--pink-pale) 100%);
+            min-height: 100vh;
+            display: grid;
+            place-items: start center;
+            padding: 0 16px;
+            background: transparent;
         }
 
         .float {
@@ -260,8 +250,8 @@ do {
 
         .stage-inner {
             position: relative;
-            max-width: 680px;
-            margin: 0 auto;
+            max-width: 420px;
+            margin: 30vh auto 0;
             display: grid;
             grid-template-columns: 1fr;
             gap: 32px;
@@ -342,41 +332,44 @@ do {
         /* ----- ฝั่งขวา: การ์ดฟอร์ม ----- */
         .form-card {
             width: 100%;
-            background: #fff;
-            border-radius: 30px;
-            padding: 36px 34px 30px;
-            box-shadow: 0 18px 45px rgba(240, 69, 122, .20);
-            border: 1px solid #ffd3e1;
+            background: transparent;
+            border-radius: 0;
+            padding: 10px 30px 12px;
+            box-shadow: none;
+            border: 0;
+            font-size: 15px;
+            line-height: 1.2;
         }
 
-        .form-head { text-align: center; margin-bottom: 22px; }
-        .form-head h2 { margin: 0 0 4px; color: var(--pink-deep); font-size: 30px; }
-        .form-head span { color: #a0647a; font-size: 14px; }
+        .form-head { text-align: center; margin-bottom: 6px; transform: translateY(-24px); }
+        .form-head h2 { margin: 0 0 3px; color: var(--pink-deep); font-size: 26px; transform: translateY(-3px); }
+        .form-head span { color: #a0647a; font-size: 15px; }
 
         .alert {
-            padding: 13px 16px;
-            border-radius: 16px;
-            margin-bottom: 18px;
+            padding: 6px 10px;
+            border-radius: 12px;
+            margin-bottom: 8px;
             font-weight: 600;
-            font-size: 14px;
+            font-size: 15px;
         }
         .alert.error   { background: #ffe3ea; color: var(--berry); border: 1px solid #ffc2d1; }
         .alert.success { background: #e5f8ea; color: #247a3d; border: 1px solid #bfe9cb; }
         .alert.success a { color: #247a3d; font-weight: 700; }
 
-        .row { display: grid; grid-template-columns: 1fr 1fr; gap: 0 16px; }
-        .field { margin-bottom: 15px; }
+        .row { display: grid; grid-template-columns: 1fr 1fr; gap: 0 12px; }
+        .field { margin-bottom: 4px; }
 
-        label { display: block; font-weight: 700; font-size: 14px; margin-bottom: 6px; }
+        label { display: block; font-weight: 700; font-size: 15px; margin-bottom: 2px; }
 
         input[type="text"], input[type="email"], input[type="tel"], input[type="password"], textarea {
             width: 100%;
-            padding: 12px 16px;
-            border: 2px solid #ffd3e1;
-            border-radius: 16px;
-            background: #fff8fb;
+            padding: 6px 10px;
+            border: 1px solid #ffd3e1;
+            border-radius: 10px;
+            background: rgba(255, 248, 251, .88);
             font-family: inherit;
             font-size: 15px;
+            line-height: 1.2;
             color: var(--ink);
             outline: none;
             transition: border-color .15s, box-shadow .15s, background .15s;
@@ -393,13 +386,13 @@ do {
         .submit-btn {
             width: 100%;
             border: 0;
-            margin-top: 6px;
-            padding: 15px;
+            margin-top: 0;
+            padding: 8px;
             border-radius: 999px;
             background: linear-gradient(90deg, var(--pink-deep), var(--pink));
             color: #fff;
             font-family: inherit;
-            font-size: 17px;
+            font-size: 15px;
             font-weight: 700;
             cursor: pointer;
             box-shadow: 0 8px 20px rgba(240, 69, 122, .35);
@@ -408,18 +401,8 @@ do {
         .submit-btn:hover { transform: translateY(-2px); box-shadow: 0 12px 26px rgba(240, 69, 122, .4); }
         .submit-btn:focus-visible { outline: 3px solid var(--berry); outline-offset: 3px; }
 
-        .login-link { text-align: center; margin-top: 18px; color: #a0647a; font-size: 14px; }
+        .login-link { text-align: center; margin-top: 7px; color: #a0647a; font-size: 15px; }
         .login-link a { color: var(--pink-deep); font-weight: 700; }
-
-        /* ===== ฟุตเตอร์ ===== */
-        footer {
-            background: linear-gradient(90deg, #f0457a, #ff6b9a);
-            color: #fff;
-            text-align: center;
-            padding: 32px 20px;
-        }
-        footer h2 { margin: 0 0 6px; }
-        footer p { margin: 0; }
 
         @media (prefers-reduced-motion: reduce) { .float { animation: none; } }
 
@@ -427,36 +410,15 @@ do {
 
         @media (max-width: 560px) {
             .row { grid-template-columns: 1fr; }
-            .form-card { padding: 28px 20px 24px; }
+            .form-card { padding: 10px 18px 12px; }
             .header-inner { justify-content: center; text-align: center; }
-            .stage { padding: 40px 16px 60px; }
+            .stage { padding: 0 12px; }
         }
     </style>
 </head>
 
 <body>
-
-<div class="topbar">♡ Baked with love ── ความสุขชิ้นเล็ก ๆ จาก KLONG 6 CAFE ♡</div>
-
-<header class="site-header">
-    <div class="header-inner">
-        <a href="Home.php" class="logo">
-            <div class="logo-title">🍒 KLONG 6 CAFE</div>
-            <div class="logo-sub">CAFE ★ BAKERY ★ HAPPINESS</div>
-        </a>
-
-        <a href="login.php" class="pill-btn">เข้าสู่ระบบ</a>
-    </div>
-
-</header>
-
 <main class="stage">
-
-    <span class="float f1">🍓</span>
-    <span class="float f2">✨</span>
-    <span class="float f3">🧁</span>
-    <span class="float f4">🍰</span>
-    <span class="float f5">🍒</span>
 
     <div class="stage-inner">
 
@@ -528,7 +490,7 @@ do {
 
                 <div class="field">
                     <label for="address">ที่อยู่</label>
-                    <textarea id="address" name="address" rows="3"><?= htmlspecialchars($_POST["address"] ?? "") ?></textarea>
+                    <textarea id="address" name="address" rows="1"><?= htmlspecialchars($_POST["address"] ?? "") ?></textarea>
                 </div>
 
                 <button type="submit" class="submit-btn">สมัครสมาชิก 💗</button>
@@ -544,11 +506,6 @@ do {
 
     </div>
 </main>
-
-<footer>
-    <h2>🍒 KLONG 6 CAFE 🍰</h2>
-    <p>Coffee ♡ Cake ♡ Happiness</p>
-</footer>
 
 </body>
 </html>

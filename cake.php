@@ -243,7 +243,7 @@ unset(
 <title>Cake Menu | KLONG 6 CAFE</title>
 
 <link
-    href="https://fonts.googleapis.com/css2?family=Mali:wght@400;500;600;700&display=swap"
+    href="https://fonts.googleapis.com/css2?family=Mali:wght@400;500;600;700&family=Pacifico&display=swap"
     rel="stylesheet"
 >
 
@@ -613,22 +613,18 @@ input {
     color: white;
 }
 
-/* Footer */
-footer {
-    padding: 30px 15px;
+.orders-footer {
     background: #451f2b;
-    color: #fbe8ed;
     text-align: center;
-    font-size: 12px;
+    color: #fbe8ed;
+    padding: 22px 12px;
+    font-size: 13px;
 }
 
-footer strong {
+.orders-footer strong {
+    font-family: 'Pacifico','Mali',cursive;
     color: white;
-    font-size: 16px;
-}
-
-footer p {
-    line-height: 1.9;
+    font-size: 23px;
 }
 
 /* Responsive */
@@ -687,31 +683,459 @@ footer p {
 }
 </style>
 <link rel="stylesheet" href="cafe-theme.css">
+<link href="https://fonts.googleapis.com/css2?family=Mali:wght@400;500;600;700&family=Pacifico&display=swap"
+      rel="stylesheet">
 <style>
 /* ปุ่มเมนูนำทางและช่องค้นหาให้เป็นธีม Pink Garden */
-.nav-wrap{position:sticky;top:0;z-index:100;background:rgba(255,248,251,.92);backdrop-filter:blur(14px);box-shadow:0 6px 20px rgba(184,42,91,.08);border-bottom:1px solid #ffd4e3}
-.nav{max-width:1320px;margin:auto;padding:10px 4%;display:flex;justify-content:center;align-items:center;flex-wrap:wrap;gap:8px}
-.nav a{display:inline-flex;justify-content:center;align-items:center;padding:10px 17px;border-radius:28px;color:#a72c5c;background:transparent;font-size:13px;font-weight:600;white-space:nowrap;transition:background .2s ease,color .2s ease,box-shadow .2s ease,transform .2s ease}
-.nav a:hover,.nav a.active{background:linear-gradient(120deg,#ff80ad,#ed2674);color:#fff;box-shadow:0 6px 16px rgba(229,44,116,.23)}
-.nav a:hover{transform:translateY(-1px)}
-.search-controls{display:flex;align-items:center;justify-content:center;gap:10px;width:min(520px,100%);margin:22px auto 25px}
-.search-controls .search-box{flex:1;min-width:0;width:auto;margin:0}
-.search-button{flex-shrink:0;padding:13px 20px;border:0;border-radius:30px;background:linear-gradient(120deg,#ff6da3,#ed176b);color:#fff;font-family:inherit;font-size:13px;font-weight:700;cursor:pointer;box-shadow:0 6px 15px #e52c7430;transition:transform .2s,box-shadow .2s}
-.search-button:hover{transform:translateY(-1px);box-shadow:0 8px 18px #e52c7440}
+.nav-wrap{
+position:sticky;
+top:0;z-index:100;
+background:rgba(255,248,251,.92);
+backdrop-filter:blur(14px);
+box-shadow:0 6px 20px rgba(184,42,91,.08);
+border-bottom:1px solid #ffd4e3
+}
+
+.nav{
+    max-width:1320px;
+    margin:auto;
+    padding:10px 4%;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    flex-wrap:wrap;
+    gap:8px
+}
+
+.nav a{
+    display:inline-flex;
+    justify-content:center;
+    align-items:center;
+    padding:10px 17px;
+    border-radius:28px;
+    color:#a72c5c;
+    background:transparent;
+    font-size:13px;
+    font-weight:600;
+    white-space:nowrap;
+    transition:background .2s ease,color .2s ease,box-shadow .2s ease,transform .2s ease
+}
+
+.nav a:hover,.nav a.active{
+    background:linear-gradient(120deg,#ff80ad,#ed2674);
+    color:#fff;
+    box-shadow:0 6px 16px rgba(229,44,116,.23)
+}
+
+.nav a:hover{
+    transform:translateY(-1px)
+}
+
+.search-controls{
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    gap:10px;
+    width:min(520px,100%);
+    margin:22px auto 25px
+}
+
+.search-controls .search-box{
+    flex:1;
+    min-width:0;
+    width:auto;
+    margin:0
+}
+
+.search-button{
+    flex-shrink:0;
+    padding:13px 20px;
+    border:0;
+    border-radius:30px;
+    background:linear-gradient(120deg,#ff6da3,#ed176b);
+    color:#fff;
+    font-family:inherit;
+    font-size:13px;
+    font-weight:700;
+    cursor:pointer;
+    box-shadow:0 6px 15px #e52c7430;
+    transition:transform .2s,box-shadow .2s
+}
+
+.search-button:hover{
+    transform:translateY(-1px);
+    box-shadow:0 8px 18px #e52c7440
+}
+
 @media(max-width:540px){.nav{justify-content:flex-start;flex-wrap:nowrap;overflow-x:auto;padding:9px 3%;gap:6px}.nav a{flex-shrink:0;padding:9px 12px;font-size:12px}.search-controls{gap:7px}.search-button{padding:12px 14px}}
 /* Pink Garden visual language shared with index.php */
-:root{--pink:#ffb6d0;--pink-light:#fff4f8;--red:#ed2674;--red-dark:#bd1555;--cream:#fff8fb;--text:#812349;--muted:#a85d7c;--border:#ffd0e0}
-body{font-family:'Mali',sans-serif;background:#fff8fb;color:#812349;background-image:radial-gradient(ellipse at 10% 35%,#ffd9e7 0,transparent 28%),radial-gradient(ellipse at 90% 72%,#ffe2ed 0,transparent 25%)}
-.announcement{background:linear-gradient(90deg,#ff7cab,#ed2674,#ff8db7);color:#fff;font-weight:600;letter-spacing:.4px}
-.header{background:linear-gradient(115deg,#ff8db7,#ffbad2 55%,#ffe6ef);padding:17px 5%;box-shadow:0 8px 25px #d72c6d16}
-.header-inner{max-width:1320px}.brand{color:#fff;font-size:clamp(22px,2.5vw,31px);text-shadow:0 2px 12px #b81e5d55}.brand small{color:#fff8fb;letter-spacing:2px}.account a{border:1px solid #ffffff9c;background:#ffffffdc;color:#d21f65;box-shadow:0 4px 12px #b81e5d13}.account a.cart-link{background:linear-gradient(120deg,#ff5c9b,#e91d6d);border-color:transparent;color:#fff}.welcome{color:#fff}
-.nav-wrap{position:sticky;top:0;z-index:100;background:transparent;backdrop-filter:none;box-shadow:none;border-bottom:0}.nav{max-width:1320px;margin:auto;display:flex;justify-content:center;gap:8px;padding:10px 4%;flex-wrap:wrap}.nav a{border-radius:28px;padding:10px 17px;color:#a72c5c;font-weight:600;transition:.2s;background:rgba(255,255,255,.55)}.nav a:hover,.nav a.active{background:linear-gradient(120deg,#ff80ad,#ed2674);color:white;box-shadow:0 6px 16px #e52c743b}
-.cake-hero{position:relative;isolation:isolate;overflow:hidden;min-height:315px;padding:44px 6%;display:grid;grid-template-columns:1.05fr .95fr;align-items:center;gap:20px;background:linear-gradient(100deg,#e94a86d9,#ff9fc2b0 52%,#ffc9dcb0),url('รูปร้าน.png') center 48%/cover no-repeat}.cake-hero:before{content:"";position:absolute;inset:0;z-index:-1;background:linear-gradient(90deg,#c92d6b55,#fff0f61c)}.cake-hero-copy{max-width:650px;color:white;text-shadow:0 2px 12px #9f164f55}.cake-kicker{font-size:12px;letter-spacing:2px;font-weight:700}.cake-hero h1{font-size:clamp(38px,5vw,65px);line-height:1.12;margin:8px 0;color:white}.cake-hero h1 span{font-family:'Pacifico','Mali',cursive;color:#fff3f8}.cake-hero p{line-height:1.8;font-size:15px;max-width:500px}.cake-hero .hero-buttons{display:flex;gap:10px;flex-wrap:wrap;margin-top:20px}.cake-hero .hero-buttons a{display:inline-flex;align-items:center;justify-content:center;padding:11px 20px;border-radius:30px;background:linear-gradient(120deg,#ff5c9b,#ed176b);color:white;font-weight:700;box-shadow:0 8px 22px #a81d5540}.cake-hero .hero-buttons a.secondary{background:#ffffff30;border:1px solid #ffffffad;box-shadow:none}.cake-hero-art{position:relative;min-height:230px;display:flex;align-items:center;justify-content:center}.cake-hero-art img{width:min(60%,290px);height:245px;object-fit:cover;border:7px solid #ffffffb9;border-radius:44% 44% 28% 28%;box-shadow:0 20px 45px #8b174c55;transform:rotate(5deg);animation:cakeFloat 5s ease-in-out infinite}.cake-hero-art .cake-decoration{position:absolute;right:7%;top:5%;font-size:45px;filter:drop-shadow(0 6px 8px #9e164b45);animation:cakeFloat 4s ease-in-out infinite reverse}.cake-petal{position:absolute;color:#fff;font-size:25px;opacity:.8;animation:cakeFloat 5s ease-in-out infinite}.cake-petal.one{left:7%;top:15%}.cake-petal.two{right:45%;bottom:10%;animation-delay:-2s}
-.menu-section{width:min(1240px,92%);margin:0 auto;padding:34px 0 48px}.section-heading{text-align:center;margin-bottom:20px}.section-heading h2{font-size:clamp(28px,3vw,39px);color:#d51f65;margin:0 0 5px}.section-heading p{color:#a85d7c;font-size:14px;margin:0}.search-box{display:block;width:min(520px,100%);padding:14px 18px;border:1px solid #ffc5d9;border-radius:30px;background:#fff;outline:none;color:#812349;box-shadow:0 7px 22px #dc4c8110;margin:22px 0 25px}.search-box:focus{border-color:#f04486;box-shadow:0 0 0 4px #ffb6d033}.product-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:20px}.product-card{overflow:hidden;border:1px solid #ffd0e0!important;border-radius:23px!important;background:linear-gradient(145deg,#fff,#fff0f6)!important;box-shadow:0 10px 28px #ce397219!important;transition:transform .25s,box-shadow .25s}.product-card:hover{transform:translateY(-5px);box-shadow:0 17px 34px #ce39722c!important}.product-image{width:100%;height:230px!important;object-fit:cover;background:#ffe5ef}.product-info{padding:18px!important}.product-info h3,.product-name{color:#d51f65!important;font-size:20px}.description{color:#a85d7c;line-height:1.75}.product-bottom{border-top:1px solid #ffd8e5;padding-top:13px;margin-top:12px}.price{color:#d51f65!important;font-weight:700;font-size:20px}.stock{color:#a85d7c!important}.add-cart-form button,.plus-button,.pagination a,.pagination span{border-radius:25px!important}.add-cart-form button,.plus-button{background:linear-gradient(120deg,#ff6da3,#ed176b)!important;color:#fff!important;border:0!important;box-shadow:0 6px 15px #e52c7430}.notice{width:min(1100px,92%);margin:20px auto;background:#ffe3ee;color:#b71958;border:1px solid #ffc6da;border-radius:16px;padding:14px 18px}.notice.error{background:#fff0f0;color:#a72b45}.empty-message{border-radius:20px;background:#fff;border:1px dashed #f4a9c6;padding:25px;color:#a85d7c}.pagination a,.pagination .active{display:inline-flex;align-items:center;justify-content:center;min-width:38px;padding:9px 13px;margin:3px;background:#fff;border:1px solid #ffd0e0;color:#c91e60}.pagination .active{background:#ed2674;color:#fff}.cake-footer{background:linear-gradient(100deg,#ffe3ee,#fff5f9,#ffd2e3);text-align:center;color:#a34b70;padding:22px 12px;font-size:13px}.cake-footer strong{font-family:'Pacifico','Mali',cursive;color:#d51f65;font-size:23px}
+:root{
+    --pink:#ffb6d0;
+    --pink-light:#fff4f8;
+    --red:#ed2674;
+    --red-dark:#bd1555;
+    --cream:#fff0f5;
+    --text:#812349;
+    --muted:#a85d7c;
+    --border:#ffd0e0
+}
+
+body{
+    font-family:'Mali',sans-serif;
+    background:var(--cream);
+    color:#812349;
+}
+
+.announcement{
+    background:linear-gradient(90deg,#ff7cab,#ed2674,#ff8db7);
+    color:#fff;
+    font-weight:600;
+    letter-spacing:.4px
+}
+
+.header{
+    background:linear-gradient(115deg,#ff8db7,#ffbad2 55%,#ffe6ef);
+    padding:17px 5%;
+    box-shadow:0 8px 25px #d72c6d16
+}
+
+.header-inner{
+    max-width:1320px
+}
+.brand{
+    color:#fff;
+    font-size:clamp(22px,2.5vw,31px);
+    text-shadow:0 2px 12px #b81e5d55
+}
+.brand small{
+    color:#fff8fb;
+    letter-spacing:2px
+}
+.account a{
+    border:1px solid #ffffff9c;
+    background:#ffffffdc;
+    color:#d21f65;
+    box-shadow:0 4px 12px #b81e5d13
+}
+.account a.cart-link{
+    background:linear-gradient(120deg,#ff5c9b,#e91d6d);
+    border-color:transparent;
+    color:#fff
+}
+.welcome{
+    color:#fff
+}
+
+.nav-wrap{
+    position:sticky;
+    top:0;
+    z-index:100;
+    background:transparent;
+    backdrop-filter:none;
+    box-shadow:none;
+    border-bottom:0
+}
+.nav{
+    max-width:1320px;
+    margin:auto;
+    display:flex;
+    justify-content:center;
+    gap:8px;
+    padding:10px 4%;
+    flex-wrap:wrap
+}
+.nav a{
+    border-radius:28px;
+    :10px 17px;
+    color:#a72c5c;
+    font-weight:600;
+    transition:.2s;
+    background:rgba(255,255,255,.55)
+}
+.nav a:hover,.nav a.active{
+    background:linear-gradient(120deg,#ff80ad,#ed2674);
+    color:white;
+    box-shadow:0 6px 16px #e52c743b
+}
+
+.cake-hero{
+    position:relative;
+    isolation:isolate;
+    overflow:hidden;
+    min-height:315px;
+    padding:44px 6%;
+    display:grid;
+    grid-template-columns:1.05fr .95fr;
+    align-items:center;
+    gap:20px;
+    background:linear-gradient(100deg,#e94a86d9,#ff9fc2b0 52%,#ffc9dcb0),url('รูปร้าน3.jpg') center 48%/cover no-repeat
+}
+.cake-hero:before{
+    content:"";
+    position:absolute;
+    inset:0;
+    z-index:-1;
+    background:linear-gradient(90deg,#c92d6b55,#fff0f61c)
+}
+.cake-hero-copy{
+    max-width:650px;
+    color:white;
+    text-shadow:0 2px 12px #9f164f55
+}
+.cake-kicker{
+    font-size:12px;
+    letter-spacing:2px;
+    font-weight:700
+}
+.cake-hero h1{
+    font-size:clamp(38px,5vw,65px);
+    line-height:1.12;
+    margin:8px 0;
+    color:white
+}
+.cake-hero h1 span{
+    font-family:'Pacifico','Mali',cursive;
+    color:#fff3f8
+}
+.cake-hero p{
+    line-height:1.8;
+    font-size:15px;
+    max-width:500px
+}
+.cake-hero .hero-buttons{
+    display:flex;
+    gap:10px;
+    flex-wrap:wrap;
+    margin-top:20px
+}
+.cake-hero .hero-buttons a{
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+    padding:11px 20px;
+    border-radius:30px;
+    background:linear-gradient(120deg,#ff5c9b,#ed176b);
+    color:white;
+    font-weight:700;
+    box-shadow:0 8px 22px #a81d5540
+}
+.cake-hero .hero-buttons a.secondary{
+    background:#ffffff30;
+    border:1px solid #ffffffad;
+    box-shadow:none
+}
+.cake-hero-art{
+    position:relative;
+    min-height:230px;
+    display:flex;
+    align-items:center;
+    justify-content:center
+}
+.cake-hero-art img{
+    width:min(60%,290px);
+    height:245px;
+    object-fit:cover;
+    border:7px solid #ffffffb9;
+    border-radius:44% 44% 28% 28%;
+    box-shadow:0 20px 45px #8b174c55;
+    transform:rotate(5deg);
+    animation:cakeFloat 5s ease-in-out infinite
+}
+.cake-hero-art .cake-decoration{
+    position:absolute;
+    right:7%;
+    top:5%;
+    font-size:45px;
+    filter:drop-shadow(0 6px 8px #9e164b45);
+    animation:cakeFloat 4s ease-in-out infinite reverse
+}
+.cake-petal{
+    position:absolute;
+    color:#fff;
+    font-size:25px;
+    opacity:.8;
+    animation:cakeFloat 5s ease-in-out infinite
+}
+.cake-petal.one{
+    left:7%;
+    top:15%
+}
+.cake-petal.two{
+    right:45%;
+    bottom:10%;
+    animation-delay:-2s
+}
+
+.menu-section{
+    width:min(1240px,92%);
+    margin:0 auto;
+    padding:34px 0 48px
+}
+.section-heading{
+    text-align:center;
+    margin-bottom:20px
+}
+.section-heading h2{
+    font-size:clamp(28px,3vw,39px);
+    color: #d51f65;
+    margin:0 0 5px
+}
+.section-heading p{
+    color: #a85d7c;
+    font-size:14px;
+    margin:0
+}
+.search-box{
+    display:block;
+    width:min(520px,100%);
+    padding:14px 18px;
+    border:1px solid #ffc5d9;
+    border-radius:30px;
+    background:#fff;
+    outline:none;
+    color:#812349;
+    box-shadow:0 7px 22px #dc4c8110;
+    margin:22px 0 25px
+}
+.search-box:focus{
+    border-color:#f04486;
+    box-shadow:0 0 0 4px #ffb6d033
+}
+.product-grid{
+    display:grid;
+    grid-template-columns:repeat(3,minmax(0,1fr));
+    gap:20px
+}
+.product-card{
+    overflow:hidden;
+    border:1px solid #ffd0e0!important;
+    border-radius:23px!important;
+    background:linear-gradient(145deg,#fff,#fff0f6)!important;
+    box-shadow:0 10px 28px #ce397219!important;
+    transition:transform .25s,box-shadow .25s
+}
+.product-card:hover{
+    transform:translateY(-5px);
+    box-shadow:0 17px 34px #ce39722c!important
+}
+.product-image{
+    width:100%;
+    height:230px!important;
+    object-fit:cover;
+    background:#ffe5ef
+}
+.product-info{
+    padding:18px!important
+}
+.product-info h3,.product-name{
+    color:#d51f65!important;
+    font-size:20px
+}
+.description{
+    color:#a85d7c;
+    line-height:1.75
+}
+.product-bottom{
+    border-top:1px solid #ffd8e5;
+    padding-top:13px;
+    margin-top:12px
+}
+.price{
+    color:#d51f65!important;
+    font-weight:700;
+    font-size:20px
+}
+.stock{
+    color:#a85d7c!important
+}
+.add-cart-form button,.plus-button,.pagination a,.pagination span{
+    border-radius:25px!important
+}
+.add-cart-form button,.plus-button{
+    background:linear-gradient(120deg,#ff6da3,#ed176b)!important;
+    color:#fff!important;
+    border:0!important;
+    box-shadow:0 6px 15px #e52c7430
+}
+.notice{
+    width:min(1100px,92%);
+    margin:20px auto;
+    background:#ffe3ee;
+    color:#b71958;
+    border:1px solid #ffc6da;
+    border-radius:16px;
+    padding:14px 18px
+}
+.notice.error{
+    background:#fff0f0;
+    color:#a72b45
+}
+.empty-message{
+    border-radius:20px;
+    background:#fff;
+    border:1px dashed #f4a9c6;
+    padding:25px;
+    color:#a85d7c
+}
+.pagination a,.pagination .active{
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+    min-width:38px;
+    padding:9px 13px;
+    margin:3px;
+    background:#fff;
+    border:1px solid #ffd0e0;
+    color:#c91e60
+}
+.pagination .active{
+    background:#ed2674;
+    color:#fff
+}
+.cake-footer{
+    background:linear-gradient(100deg,#ffe3ee,#fff5f9,#ffd2e3);
+    text-align:center;
+    color:#a34b70;
+    padding:22px 12px;
+    font-size:13px
+}
+.cake-footer strong{
+    font-family:'Pacifico','Mali',cursive;
+    color:#d51f65;
+    font-size:23px
+}
+
 @keyframes cakeFloat{0%,100%{transform:translateY(0) rotate(4deg)}50%{transform:translateY(-12px) rotate(-2deg)}}
-@media(max-width:850px){.cake-hero{grid-template-columns:1fr;text-align:center;padding:35px 6%}.cake-hero-copy{margin:auto}.cake-hero p{margin-left:auto;margin-right:auto}.cake-hero .hero-buttons{justify-content:center}.cake-hero-art{min-height:210px}.cake-hero-art img{height:205px}.product-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.product-image{height:200px!important}}
-@media(max-width:540px){.header{padding:15px 4%}.header-inner{justify-content:center;text-align:center}.brand{width:100%}.account{gap:6px}.nav{justify-content:flex-start;flex-wrap:nowrap;overflow-x:auto;padding:9px 3%}.nav a{white-space:nowrap;padding:9px 12px;font-size:12px}.cake-hero{padding:30px 5%}.cake-hero h1{font-size:42px}.cake-hero p{font-size:13px}.cake-hero-art{min-height:180px}.cake-hero-art img{height:175px;width:54%}.cake-hero-art .cake-decoration{font-size:33px}.menu-section{width:92%;padding-top:27px}.product-grid{grid-template-columns:1fr;gap:16px}.product-card{display:grid;grid-template-columns:40% 60%;align-items:stretch}.product-image{height:100%!important;min-height:190px}.product-info{padding:13px!important}.product-info h3,.product-name{font-size:17px}.description{font-size:12px}.price{font-size:17px}}
-@media(prefers-reduced-motion:reduce){.cake-hero-art img,.cake-decoration,.cake-petal{animation:none!important}}
+@media(max-width:850px){
+    .cake-hero{grid-template-columns:1fr;text-align:center;padding:35px 6%}
+    .cake-hero-copy{margin:auto}
+    .cake-hero p{margin-left:auto;margin-right:auto}
+    .cake-hero .hero-buttons{justify-content:center}
+    .cake-hero-art{min-height:210px}
+    .cake-hero-art img{height:205px}
+    .product-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+    .product-image{height:200px!important}
+}
+@media(max-width:540px){
+    .header{padding:15px 4%}
+    .header-inner{justify-content:center;text-align:center}
+    .brand{width:100%}.account{gap:6px}.nav{justify-content:flex-start;flex-wrap:nowrap;overflow-x:auto;padding:9px 3%}
+    .nav a{white-space:nowrap;padding:9px 12px;font-size:12px}
+    .cake-hero{padding:30px 5%}.cake-hero h1{font-size:42px}
+    .cake-hero p{font-size:13px}.cake-hero-art{min-height:180px}
+    .cake-hero-art img{height:175px;width:54%}
+    .cake-hero-art .cake-decoration{font-size:33px}
+    .menu-section{width:92%;padding-top:27px}
+    .product-grid{grid-template-columns:1fr;gap:16px}
+    .product-card{display:grid;grid-template-columns:40% 60%;align-items:stretch}
+    .product-image{height:100%!important;min-height:190px}
+    .product-info{padding:13px!important}
+    .product-info h3,.product-name{font-size:17px}
+    .description{font-size:12px}.price{font-size:17px}
+}
+@media(prefers-reduced-motion:reduce){
+    .cake-hero-art img,.cake-decoration,.cake-petal{animation:none!important}
+}
 
         /* Cursor ปกติ: ลูกศรมนสีชมพูเข้ม */
         html, body, body * {
@@ -804,38 +1228,227 @@ body{font-family:'Mali',sans-serif;background:#fff8fb;color:#812349;background-i
     -webkit-backdrop-filter: blur(12px);
 }
 
-.announcement{display:none}
-.header{position:absolute;top:0;left:0;z-index:10;width:100%;padding:17px 5%;background:linear-gradient(180deg,rgba(0,0,0,.5),transparent);box-shadow:none}
-.header-inner{max-width:1320px;flex-wrap:nowrap}
-.brand{display:flex;align-items:center;gap:10px;color:#fff;text-decoration:none}
-.brand-mark{font-size:29px}
-.brand-name{font-size:clamp(22px,2.5vw,31px);font-weight:700;line-height:1.2;text-shadow:0 2px 10px #000}
-.brand-name small{display:block;margin-top:3px;color:#fff;font-size:10px;letter-spacing:2px}
-.welcome{color:#fff;text-shadow:0 2px 8px #000}
-.account a{display:inline-flex;align-items:center;justify-content:center;min-height:42px;padding:10px 17px;border:1px solid rgba(255,105,160,.9);border-radius:4px;background:rgba(255,182,205,.32);color:#fff;font-size:13px;text-shadow:0 1px 5px rgba(80,20,45,.65);backdrop-filter:blur(8px)}
-.account a[href="register.php"]{background:#ed367f}
-.nav-strip{position:absolute;top:19px;left:50%;z-index:11;width:max-content;max-width:70%;padding:0;transform:translateX(-50%);background:transparent}
-.nav-wrap{position:static;width:fit-content;max-width:100%;margin:0;border:1px solid rgba(255,105,160,.9);border-radius:40px;background:rgba(0,0,0,.22);box-shadow:0 8px 25px rgba(0,0,0,.12);backdrop-filter:blur(8px)}
-.nav-wrap .nav{max-width:1320px;justify-content:center;flex-wrap:nowrap;gap:4px;padding:4px 7px;overflow-x:auto}
-.nav-wrap .nav a{flex:0 0 auto;padding:9px 13px;border-radius:30px;background:transparent;color:#fff;font-size:13px;text-shadow:0 1px 6px rgba(0,0,0,.45)}
-.nav-wrap .nav a:hover,.nav-wrap .nav a.active{background:#ed367f;color:#fff;box-shadow:none}
+.announcement{
+    display:none
+}
+
+.header{
+    position:absolute;
+    top:0;
+    left:0;
+    z-index:10;
+    width:100%;
+    padding:17px 5%;
+    background:linear-gradient(180deg,rgba(0,0,0,.5),transparent);
+    box-shadow:none
+}
+
+.header-inner{
+    max-width:1320px;
+    flex-wrap:nowrap
+}
+
+.brand{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    color:#fff;
+    text-decoration:none
+}
+
+.brand-mark{
+    font-size:29px
+}
+
+.brand-name{
+    font-size:clamp(22px,2.5vw,31px);
+    font-weight:700;
+    line-height:1.2;
+    text-shadow:0 2px 10px #000
+}
+
+.brand-name small{
+    display:block;
+    margin-top:3px;
+    color:#fff;
+    font-size:10px;
+    letter-spacing:2px
+}
+
+.welcome{
+    color:#fff;
+    text-shadow:0 2px 8px #000}
+
+.account a{
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;ฃ
+    min-height:42px;
+    padding:10px 17px;
+    border:1px solid rgba(255,105,160,.9);
+    border-radius:4px;
+    background:rgba(255,182,205,.32);
+    color:#fff;
+    font-size:13px;
+    text-shadow:0 1px 5px rgba(80,20,45,.65);
+    backdrop-filter:blur(8px)
+}
+
+.account a[href="register.php"]{
+    background:#ed367f
+}
+
+.nav-strip{
+    position:absolute;
+    top:19px;
+    left:50%;
+    z-index:11;
+    width:max-content;
+    max-width:70%;
+    padding:0;
+    transform:translateX(-50%);
+    background:transparent
+}
+
+.nav-wrap{
+    position:static;
+    width:fit-content;
+    max-width:100%;
+    margin:0;
+    border:1px solid rgba(255,105,160,.9);
+    border-radius:40px;
+    background:rgba(0,0,0,.22);
+    box-shadow:0 8px 25px rgba(0,0,0,.12);
+    backdrop-filter:blur(8px)
+}
+
+.nav-wrap .nav{
+    max-width:1320px;
+    justify-content:center;
+    flex-wrap:nowrap;
+    gap:4px;
+    padding:4px 7px;
+    overflow-x:auto
+}
+
+.nav-wrap .nav a{
+    flex:0 0 auto;
+    padding:9px 13px;
+    border-radius:30px;
+    background:transparent;
+    color:#fff;
+    font-size:13px;
+    text-shadow:0 1px 6px rgba(0,0,0,.45)
+}
+
+.nav-wrap .nav a:hover,.nav-wrap .nav a.active{
+    background:#ed367f;
+    color:#fff;
+    box-shadow:none
+}
+
 @media (min-width:1001px){.cake-hero{min-height:400px;padding-top:125px}}
 @media (max-width:1000px){
-    .header{position:relative;top:auto;left:auto;padding:12px 4%;background:rgba(0,0,0,.65)}
-    .header-inner{flex-wrap:wrap;justify-content:center}
-    .account{margin-left:auto}
-    .nav-strip{position:sticky;top:0;left:auto;width:100%;max-width:none;transform:none;background:rgba(0,0,0,.78)}
-    .nav-wrap{width:100%;max-width:none;border:0;border-top:1px solid rgba(255,105,160,.9);border-bottom:1px solid rgba(255,105,160,.9);border-radius:0;background:transparent;box-shadow:none}
-    .nav-wrap .nav{justify-content:flex-start;padding:7px 10px}
-    .cake-hero{min-height:315px;padding-top:35px}
+    .header{
+        position:relative;
+        top:auto;
+        left:auto;
+        padding:12px 4%;
+        background:rgba(0,0,0,.65)
+    }
+    
+    .header-inner{
+        flex-wrap:wrap;
+        justify-content:center
+    }
+
+    .account{
+        margin-left:auto
+    }
+
+    .nav-strip{
+        position:sticky;
+        top:0;
+        left:auto;
+        width:100%;
+        max-width:none;
+        transform:none;
+        background:rgba(0,0,0,.78)
+    }
+
+    .nav-wrap{
+        width:100%;
+        max-width:none;
+        border:0;
+        border-top:1px solid rgba(255,105,160,.9);
+        border-bottom:1px solid rgba(255,105,160,.9);
+        border-radius:0;background:transparent;
+        box-shadow:none
+    }
+
+    .nav-wrap .nav{
+        justify-content:flex-start;
+        padding:7px 10px
+    }
+
+    .cake-hero{
+        min-height:315px;padding-top:35px
+    }
+
 }
 @media (max-width:600px){
-    .header{padding:14px 5%;background:rgba(0,0,0,.65)}
-    .header-inner{justify-content:center}
-    .brand-name{font-size:19px}
-    .brand-name small{font-size:8px;letter-spacing:1.5px}
-    .account{justify-content:center;margin:0}
-    .nav-wrap .nav a{padding:9px 12px;font-size:12px}
+    .header{
+        padding:14px 5%;
+        background:rgba(0,0,0,.65)
+    }
+
+    .header-inner{
+        justify-content:center
+    }
+
+    .brand-name{
+        font-size:19px
+    }
+
+    .brand-name small{
+        font-size:8px;letter-spacing:1.5px
+    }
+
+    .account{
+        justify-content:center;margin:0
+    }
+
+    .nav-wrap .nav a{
+        padding:9px 12px;font-size:12px
+    }
+    
+}
+
+.cake-hero {
+    background: url('รูปร้าน3.jpg') center 58% / cover no-repeat !important;
+    background-position: center calc(58% - var(--scroll-shift, 0px)) !important;
+}
+
+.cake-hero::before {
+    content: none !important;
+}
+
+.cake-hero::after {
+    content: "";
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    z-index: 0;
+    height: 110px;
+    background: linear-gradient(to bottom, rgba(255, 240, 245, 0), var(--cream));
+    pointer-events: none;
+}
+
+.cake-hero-copy,
+.cake-hero-art,
+.cake-petal {
+    z-index: 1;
 }
 
 .plus-button:disabled {
@@ -930,7 +1543,7 @@ body{font-family:'Mali',sans-serif;background:#fff8fb;color:#812349;background-i
         <div class="cake-kicker">A LITTLE SWEETNESS, A LOT OF LOVE</div>
         <h1>Sweet moments<br><span>with Cake ♡</span></h1>
         <p>เค้กโฮมเมด เนื้อนุ่ม หวานละมุน อบสดใหม่เพื่อเติมความสุขให้ทุกวันของคุณ 🍓</p>
-        <div class="hero-buttons"><a href="#menu">🍰 เลือกเค้กชิ้นโปรด ↓</a><a class="secondary" href="Home.php">กลับหน้าแรก ♡</a></div>
+        <div class="hero-buttons"><a href="#menu">🍰 เลือกเค้กชิ้นโปรด ↓</a></div>
     </div>
     <div class="cake-hero-art"><img src="Lemon Cream Cake.jpg" alt="เค้กแสนอร่อยจาก Klong 6 Cafe" onerror="this.onerror=null;this.src='image/Lemon Cream Cake.jpg';"><span class="cake-decoration" aria-hidden="true">🍓 ✨</span></div>
 </section>
@@ -1150,18 +1763,9 @@ body{font-family:'Mali',sans-serif;background:#fff8fb;color:#812349;background-i
 </section>
 
 <!-- Footer -->
-<footer>
-
-    <strong>🍒 KLONG 6 CAFE 🍒</strong>
-
-    <p>Coffee • Cake • Bakery • Happiness</p>
-
-    <p>ขอบคุณที่แวะมาเติมความหวานกับเรานะคะ ♡</p>
-
-    <p>
-        © <?= date('Y') ?> KLONG 6 CAFE. All rights reserved.
-    </p>
-
+<footer class="orders-footer">
+    <strong>♡ Klong 6 Cafe ♡</strong>
+    <div>Good Coffee&nbsp; • &nbsp;Sweet Drinks&nbsp; • &nbsp;Delicious Cake&nbsp; • &nbsp;Happy Time</div>
 </footer>
 
 <!-- JavaScript -->
@@ -1273,9 +1877,35 @@ document.querySelectorAll('.add-cart-form').forEach(function (form) {
     });
 
 });
+
+const cakeHero = document.querySelector('.cake-hero');
+const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+if (cakeHero && !reduceMotion) {
+    let framePending = false;
+
+    function updateCakeHeroBackground() {
+        const bounds = cakeHero.getBoundingClientRect();
+        const progress = Math.min(
+            1,
+            Math.max(0, (window.innerHeight - bounds.top) / (window.innerHeight + bounds.height))
+        );
+
+        cakeHero.style.setProperty('--scroll-shift', `${progress * 24}px`);
+        framePending = false;
+    }
+
+    function requestCakeHeroUpdate() {
+        if (framePending) return;
+
+        framePending = true;
+        window.requestAnimationFrame(updateCakeHeroBackground);
+    }
+
+    window.addEventListener('scroll', requestCakeHeroUpdate, { passive: true });
+    window.addEventListener('resize', requestCakeHeroUpdate);
+    requestCakeHeroUpdate();
+}
 </script>
-
-<footer class="cake-footer"><strong>♡ Klong 6 Cafe ♡</strong><div>Good Coffee&nbsp; • &nbsp;Sweet Drinks&nbsp; • &nbsp;Delicious Cake&nbsp; • &nbsp;Happy Time</div></footer>
-
 </body>
 </html>

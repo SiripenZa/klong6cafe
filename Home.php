@@ -194,24 +194,70 @@ $menus = [
 			margin: auto;
 			padding: 70px 5%;
 		}
-		.section-heading { margin-bottom: 24px; text-shadow: 0 2px 12px #000; }
+		.section-heading { margin-bottom: 24px; text-shadow: 0 2px 12px #000; text-align: center; }
 		.section-heading h2 { margin: 0 0 8px; font-size: clamp(26px, 3vw, 38px); }
 		.section-heading p { margin: 0; line-height: 1.8; }
-		.categories { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 18px; }
-		.category-card {
+		.categories {
 			display: grid;
-			grid-template-columns: 48% 52%;
-			align-items: center;
-			min-height: 220px;
-			overflow: hidden;
-			border: 1px solid var(--pink-frame);
-			background: rgba(0,0,0,.62);
-			box-shadow: 0 12px 30px rgba(0,0,0,.2);
+			grid-template-columns: repeat(2, minmax(0, 1fr));
+			gap: 24px;
+			align-items: stretch;
 		}
-		.category-card img { display: block; width: 100%; height: 220px; object-fit: cover; }
-		.category-content { padding: 20px; }
-		.category-content h3 { margin: 0 0 8px; font-size: 22px; }
-		.category-content p { margin: 0 0 16px; color: rgba(255,255,255,.82); font-size: 13px; line-height: 1.7; }
+		.category-card {
+			display: flex;
+			flex-direction: column;
+			align-items: center;
+			width: 88%;
+			justify-self: center;
+			min-width: 0;
+			overflow: hidden;
+			border: 2px solid var(--pink-frame);
+			border-radius: 18px;
+			background: linear-gradient(135deg, rgba(30, 8, 18, .95), rgba(0, 0, 0, .88));
+			box-shadow: 0 16px 36px rgba(0, 0, 0, .32), 0 0 22px var(--pink-glow);
+			transition: transform .25s ease, box-shadow .25s ease;
+		}
+		.category-card:hover {
+			transform: translateY(-5px);
+			box-shadow: 0 22px 42px rgba(0, 0, 0, .38), 0 0 28px var(--pink-glow);
+		}
+		.category-card img {
+			display: block;
+			width: 100%;
+			max-width: none;
+			height: auto;
+			object-fit: contain;
+			object-position: center;
+			margin: 0;
+			padding: 0;
+			border-radius: 10px 10px 0 0;
+		}
+		.category-content {
+			position: static;
+			display: flex;
+			width: 100%;
+			flex-direction: column;
+			align-items: center;
+			justify-content: center;
+			padding: 22px 20px 26px;
+			text-align: center;
+			background: transparent;
+		}
+		.category-content h3 {
+			margin: 0 0 10px;
+			font-size: 24px;
+			color: #ffd6e5;
+			text-align: center;
+		}
+		.category-content p {
+			margin: 0 0 18px;
+			color: rgba(255, 255, 255, .9);
+			font-size: 15px;
+			line-height: 1.8;
+			text-align: center;
+		}
+		.category-content .btn { align-self: center; }
+
 		.order-strip {
 			margin: 30px auto 70px;
 			width: min(1220px, 90%);
@@ -261,12 +307,13 @@ $menus = [
 			.floating-drink { top: 30px; height: 185px; }
 			.floating-cake { height: 145px; }
 			.section { padding: 45px 5%; }
-			.categories { grid-template-columns: 1fr; }
-			.category-card { min-height: 170px; grid-template-columns: 44% 56%; }
-			.category-card img { height: 170px; }
-			.category-content { padding: 14px; }
-			.category-content h3 { font-size: 19px; }
-			.category-content p { font-size: 12px; }
+			.categories { grid-template-columns: 1fr; gap: 22px; }
+			.category-card { width: 88%; min-height: 0; }
+			.category-card img { width: 100%; max-width: none; height: auto; margin: 0; object-fit: contain; object-position: center; }
+			.category-content { padding: 20px 16px 24px; align-items: center; justify-content: center; text-align: center; }
+			.category-content h3 { font-size: 21px; }
+			.category-content p { font-size: 13px; }
+
 			.order-strip { width: 90%; padding: 24px 16px; }
 		}
 		@media (prefers-reduced-motion: reduce) {

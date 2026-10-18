@@ -705,7 +705,7 @@ a { color: inherit; }
 .page-heading {
     text-align: center;
     margin: 0 0 24px;
-}
+}ประวัติการสั่งซื้อ 
 
 .eyebrow {
     color: var(--red);
@@ -984,23 +984,18 @@ input[type="file"] { background: white; }
     margin-bottom: 5px;
 }
 
-.footer {
-    background: linear-gradient(115deg,#ffe1ec,#fff1f7);
-    text-align: center;
-    padding: 28px 15px;
-    color: var(--muted);
-    font-size: 12px;
-    line-height: 1.9;
+.orders-footer{
+    background:#451f2b;
+    text-align:center;
+    color:#fbe8ed;
+    padding:22px 12px;
+    font-size:13px
 }
-
-.footer strong {
-    display: block;
-    font-size: 20px;
-    color: var(--red-dark);
-    margin-bottom: 5px;
+.orders-footer strong{
+    font-family:'Pacifico','Mali',cursive;
+    color:#fff;
+    font-size:23px
 }
-
-.footer p { margin: 4px 0; }
 
 @media (max-width: 540px) {
     .pickup-warning {
@@ -1064,7 +1059,7 @@ input[type="file"] { background: white; }
     .header,
     .nav-strip,
     .no-print,
-    .footer {
+    .orders-footer {
         display: none !important;
     }
 
@@ -1095,7 +1090,7 @@ input[type="file"] { background: white; }
 .nav-wrap .nav{max-width:1320px;justify-content:center;flex-wrap:nowrap;gap:4px;padding:4px 7px;overflow-x:auto}
 .nav-wrap .nav a{flex:0 0 auto;padding:9px 13px;border-radius:30px;background:transparent;color:#fff;font-size:13px;text-shadow:0 1px 6px rgba(0,0,0,.45)}
 .nav-wrap .nav a:hover,.nav-wrap .nav a.active{background:#ed367f;color:#fff;box-shadow:none}
-@media (min-width:1001px){.container{padding-top:145px}}
+@media (min-width:1001px){.container{padding-top:145px}.page-heading{margin-top:-80px}}
 @media (max-width:1000px){
     .header{position:relative;top:auto;left:auto;padding:12px 4%;background:rgba(0,0,0,.65)}
     .header-inner{flex-wrap:wrap;justify-content:center}
@@ -1338,7 +1333,6 @@ input[type="file"] { background: white; }
 <?php elseif (!$error): ?>
 
     <div class="page-heading">
-        <div class="eyebrow">MADE WITH LOVE ♡</div>
         <h1>🧾 ยืนยันคำสั่งซื้อ</h1>
         <p>ตรวจสอบรายการ เลือกเวลารับสินค้า และแนบสลิปมัดจำ</p>
     </div>
@@ -1523,11 +1517,9 @@ input[type="file"] { background: white; }
 
 </main>
 
-<footer class="footer">
-    <strong>🍒 KLONG 6 CAFE 🍒</strong>
-    <p>CAFE • BAKERY • HAPPINESS</p>
-    <p>ขอบคุณที่แวะมาเติมความหวานกับเรานะคะ ♡</p>
-    <p>© <?= date('Y') ?> KLONG 6 CAFE</p>
+<footer class="orders-footer">
+    <strong>♡ Klong 6 Cafe ♡</strong>
+    <div>Good Coffee&nbsp; • &nbsp;Sweet Drinks&nbsp; • &nbsp;Delicious Cake&nbsp; • &nbsp;Happy Time</div>
 </footer>
 
 <script>
