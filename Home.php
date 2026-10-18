@@ -338,7 +338,7 @@ $menus = [
 	<canvas aria-hidden="true"></canvas>
 	<header class="site-header">
 		<div class="header-inner">
-			<a class="brand" href="index.php" aria-label="Klong 6 Cafe หน้าหลัก">
+			<a class="brand" href="Home.php" aria-label="Klong 6 Cafe หน้าหลัก">
 				<span class="brand-mark" aria-hidden="true">🍒</span>
 				<span class="brand-name">KLONG 6 CAFE<small>CAFE • BAKERY • HAPPINESS</small></span>
 			</a>
