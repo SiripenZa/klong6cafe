@@ -667,7 +667,7 @@ input[type="button"], [role="button"], .btn {
 <header class="header">
     <div class="header-inner">
 
-        <a href="index.php" class="brand">
+        <a href="Home.php" class="brand">
             <span class="brand-mark" aria-hidden="true">🍒</span>
             <span class="brand-name">KLONG 6 CAFE<small>CAFE • BAKERY • HAPPINESS</small></span>
         </a>
@@ -690,8 +690,8 @@ input[type="button"], [role="button"], .btn {
   <div class="nav-wrap">
     <nav class="nav">
 
-          <a href="index.php"
-              class="<?= $currentPage === 'index.php' ? 'active' : '' ?>">
+          <a href="Home.php"
+              class="<?= $currentPage === 'Home.php' ? 'active' : '' ?>">
             🏠 หน้าหลัก
         </a>
 
@@ -875,7 +875,7 @@ input[type="button"], [role="button"], .btn {
             <?php else: ?>
                 <h3>ยังไม่มีประวัติการสั่งซื้อ</h3>
                 <p>เลือกเค้กหรือเครื่องดื่มที่ชอบ แล้วมาเติมความหวานกันนะคะ</p>
-                <a href="index.php" class="btn btn-primary">
+                <a href="Home.php" class="btn btn-primary">
                     เลือกซื้อสินค้า
                 </a>
             <?php endif; ?>

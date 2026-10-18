@@ -1130,7 +1130,7 @@ input[type="file"] { background: white; }
 
 <header class="header">
     <div class="header-inner">
-        <a href="index.php" class="brand">
+        <a href="Home.php" class="brand">
             <span class="brand-mark" aria-hidden="true">🍒</span>
             <span class="brand-name">KLONG 6 CAFE<small>CAFE • BAKERY • HAPPINESS</small></span>
         </a>
@@ -1152,8 +1152,8 @@ input[type="file"] { background: white; }
 <div class="nav-strip">
     <div class="nav-wrap">
         <nav class="nav">
-                <a href="index.php"
-                    class="<?= $currentPage === 'index.php' ? 'active' : '' ?>">
+                <a href="Home.php"
+                    class="<?= $currentPage === 'Home.php' ? 'active' : '' ?>">
                 🏠 หน้าหลัก
             </a>
 
@@ -1324,7 +1324,7 @@ input[type="file"] { background: white; }
                 📋 ดูประวัติการสั่งซื้อ
             </a>
 
-            <a class="btn btn-light" href="index.php">
+            <a class="btn btn-light" href="Home.php">
                 🏠 กลับหน้าหลัก
             </a>
         </div>

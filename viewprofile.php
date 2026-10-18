@@ -60,8 +60,8 @@ $escape = static fn($value): string => htmlspecialchars((string)($value ?? ''), 
 <body>
     <header class="site-header">
         <div class="header-inner">
-            <a class="brand" href="index.php">🍒 KLONG 6 CAFE</a>
-            <a class="header-link" href="index.php">กลับหน้าหลัก</a>
+            <a class="brand" href="Home.php">🍒 KLONG 6 CAFE</a>
+            <a class="header-link" href="Home.php">กลับหน้าหลัก</a>
         </div>
     </header>
     <main class="page">

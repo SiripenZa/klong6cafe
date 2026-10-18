@@ -40,7 +40,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                     $_SESSION["customer_lastname"] = $customer["lastname"];
                     $_SESSION["customer_email"] = $customer["email"];
 
-                    header("Location: index.php");
+                    header("Location: Home.php");
                     exit;
                 }
             } else {
@@ -296,7 +296,7 @@ html, body {
                 👤 สมัครสมาชิก
             </a>
 
-            <a href="index.php" class="menu-button">
+            <a href="Home.php" class="menu-button">
                 🏠 กลับหน้าหลัก
             </a>
 

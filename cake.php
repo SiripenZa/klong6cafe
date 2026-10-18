@@ -1506,7 +1506,7 @@ body{
   <div class="nav-wrap">
     <nav class="nav">
 
-        <a href="index.php" class="<?= $currentPage === 'index.php' ? 'active' : '' ?>">
+        <a href="Home.php" class="<?= $currentPage === 'Home.php' ? 'active' : '' ?>">
             🏠 หน้าหลัก
         </a>
 
