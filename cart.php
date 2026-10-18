@@ -961,7 +961,7 @@ input[type="button"], [role="button"], .btn {
 <header class="header">
     <div class="header-inner">
 
-        <a href="Home.php" class="brand">
+        <a href="index.php" class="brand">
             <span class="brand-mark" aria-hidden="true">🍒</span>
             <span class="brand-name">KLONG 6 CAFE<small>CAFE • BAKERY • HAPPINESS</small></span>
         </a>
@@ -993,8 +993,8 @@ input[type="button"], [role="button"], .btn {
   <div class="nav-wrap">
     <nav class="nav">
 
-          <a href="Home.php"
-              class="<?= $currentPage === 'Home.php' ? 'active' : '' ?>">
+          <a href="index.php"
+              class="<?= $currentPage === 'index.php' ? 'active' : '' ?>">
             🏠 หน้าหลัก
         </a>
 

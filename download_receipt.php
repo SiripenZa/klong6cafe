@@ -576,7 +576,7 @@ $balance_amount = (float) $order["balance_amount"];
         🖨️ พิมพ์ / บันทึกเป็น PDF
     </button>
 
-    <a class="btn btn-secondary" href="Home.php">
+    <a class="btn btn-secondary" href="index.php">
         🏠 กลับหน้าหลัก
     </a>
 </div>

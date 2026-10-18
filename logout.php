@@ -9,6 +9,6 @@ unset(
     $_SESSION['cart']
 );
 
-header("Location: Home.php");
+header("Location: index.php");
 exit;
 ?>

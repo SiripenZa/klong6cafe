@@ -5,7 +5,7 @@ $customerName = $_SESSION['customer_firstname'] ?? '';
 $isLoggedIn = isset($_SESSION['customer_id']);
 $currentPage = basename($_SERVER['SCRIPT_NAME']);
 $menus = [
-	'Home.php' => '🏠 หน้าหลัก',
+	'index.php' => '🏠 หน้าหลัก',
 	'cake.php' => '🍰 เค้ก',
 	'drink.php' => '🥤 เครื่องดื่ม',
 	'order.php' => '🧾 คำสั่งซื้อ',
@@ -338,7 +338,7 @@ $menus = [
 	<canvas aria-hidden="true"></canvas>
 	<header class="site-header">
 		<div class="header-inner">
-			<a class="brand" href="Home.php" aria-label="Klong 6 Cafe หน้าหลัก">
+			<a class="brand" href="index.php" aria-label="Klong 6 Cafe หน้าหลัก">
 				<span class="brand-mark" aria-hidden="true">🍒</span>
 				<span class="brand-name">KLONG 6 CAFE<small>CAFE • BAKERY • HAPPINESS</small></span>
 			</a>
@@ -365,7 +365,7 @@ $menus = [
 		</nav>
 	</div>
 	<main>
-		<section class="hero" id="home">
+		<section class="hero" id="Home">
 			<div class="hero-inner">
 				<div class="hero-copy">
 					<div class="eyebrow">Coffee · Sweet Drinks · Cake</div>
